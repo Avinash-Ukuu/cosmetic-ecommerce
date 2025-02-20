@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\api;
 
 use Carbon\Carbon;
+use App\Models\Otp;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Address;
 use App\Models\Customer;
+use App\Mail\SendOtpMail;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Mail\CustomerRegisterMail;
 use App\Http\Controllers\Controller;
@@ -27,9 +30,53 @@ class AuthController extends Controller
                 'phone_number'  => 'required|string|min:8',
             ]);
 
+            // Generate OTP
+            $otp        = rand(100000, 999999);
+            $expiresAt  = Carbon::now()->addMinutes(5);
 
-            $token          =   bin2hex(random_bytes(32));
-            $user           =   User::create([
+            // Store OTP in otps table
+            Otp::updateOrCreate(
+                ['email'    => $validatedData['email']],
+                ['otp_code' => $otp, 'expires_at' => $expiresAt]
+            );
+
+            // Send OTP to user's email
+            Mail::to($validatedData['email'])->send(new SendOtpMail($otp));
+
+            return response()->json(['message' => 'OTP sent to your email. Please verify to complete registration.'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'name'          => 'required|string|max:255',
+                'email'         => 'required|string|email|max:255|unique:users',
+                'password'      => 'required|string|min:8',
+                'phone_number'  => 'required|string|min:8',
+                'otp'           => 'required|integer',
+            ]);
+
+            $otpEntry       =   Otp::where('email', $validatedData['email'])
+                                ->where('otp_code', $validatedData['otp'])
+                                ->first();
+
+            if (!$otpEntry) {
+                return response()->json(['message' => 'Invalid OTP'], 400);
+            }
+
+            if (Carbon::now()->greaterThan($otpEntry->expires_at)) {
+                return response()->json(['message' => 'OTP expired'], 400);
+            }
+
+            // Generate API token
+            $token = Str::random(64);
+
+            // Create User
+            $user = User::create([
                 'name'      => $validatedData['name'],
                 'email'     => $validatedData['email'],
                 'is_active' => 1,
@@ -37,18 +84,20 @@ class AuthController extends Controller
                 'api_token' => $token
             ]);
 
-            $customer       =   Customer::create([
+            // Create Customer
+            $customer = Customer::create([
                 'user_id'       =>  $user->id,
                 'phone_number'  =>  $validatedData['phone_number'],
             ]);
 
-            $role           =   Role::where('name','customer')->first();
-            if(!empty($role))
-            {
+            // Assign Role
+            $role = Role::where('name', 'customer')->first();
+            if (!empty($role)) {
                 $user->roles()->attach($role->id);
             }
-
-            // Mail::to($user->email)->send(new CustomerRegisterMail($user));
+            Mail::to($user->email)->send(new CustomerRegisterMail($user));
+            // Delete OTP after successful verification
+            $otpEntry->delete();
 
             return response()->json(['token' => $token, 'user' => $user], 201);
         } catch (\Exception $e) {
@@ -76,7 +125,7 @@ class AuthController extends Controller
         if ($user->roles->isEmpty()) {
             return response()->json(['message' => 'Unauthorized: Role missing'], 403);
         }
-        
+
         $token = bin2hex(random_bytes(32));
         $user->update(['api_token' => $token]);
 

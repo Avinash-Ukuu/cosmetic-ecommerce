@@ -486,6 +486,22 @@ insert  into `modules`(`id`,`name`,`created_at`,`updated_at`) values
 (4,'product','2024-09-04 00:58:27','2024-09-04 00:58:27'),
 (5,'category','2024-09-07 04:37:05','2024-09-07 04:37:05');
 
+/*Table structure for table `otps` */
+
+DROP TABLE IF EXISTS `otps`;
+
+CREATE TABLE `otps` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) DEFAULT NULL,
+  `otp_code` int(11) DEFAULT NULL,
+  `expires_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `otps` */
+
 /*Table structure for table `password_reset_tokens` */
 
 DROP TABLE IF EXISTS `password_reset_tokens`;
