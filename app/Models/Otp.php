@@ -10,5 +10,5 @@ class Otp extends Model
     use HasFactory;
 
     protected $guarded  =   ['id'];
-    protected $table    =   ['otps'];
+    protected $table    =   'otps';
 }

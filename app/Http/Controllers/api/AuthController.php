@@ -29,17 +29,18 @@ class AuthController extends Controller
                 'password'      => 'required|string|min:8',
                 'phone_number'  => 'required|string|min:8',
             ]);
-
             // Generate OTP
             $otp        = rand(100000, 999999);
-            $expiresAt  = Carbon::now()->addMinutes(5);
+            $otp        = (string)$otp;
+            $expiresAt  = Carbon::now()->addMinutes(5)->toDateTimeString();
 
             // Store OTP in otps table
-            Otp::updateOrCreate(
-                ['email'    => $validatedData['email']],
-                ['otp_code' => $otp, 'expires_at' => $expiresAt]
-            );
 
+            $otpCode                =       new Otp();
+            $otpCode->email         =       $validatedData['email'];
+            $otpCode->otp_code      =       $otp;
+            $otpCode->expires_at    =       $expiresAt;
+            $otpCode->save();
             // Send OTP to user's email
             Mail::to($validatedData['email'])->send(new SendOtpMail($otp));
 
