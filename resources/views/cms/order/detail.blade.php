@@ -30,14 +30,14 @@
                 <div class="container-fluid d-flex justify-content-between">
                     <div class="col-lg-3 ps-0">
                         <p class="mt-5 mb-2"><b>Customer Detail</b></p>
-                        <p>{{ $order->customer->name }},<br>{{ $order->customer->email }},<br>{{ $order->customer->customer->phone_number }}.</p>
+                        <p>{{ $order->customer->name ?? 'N/A' }},<br>{{ $order->customer->email ?? 'N/A' }},<br>{{ $order->customer->customer->phone_number ?? 'N/A' }}.</p>
                     </div>
                     <div class="col-lg-3 pr-0">
                         <p class="mt-5 mb-2"><b>Shipping Address</b></p>
                         <p>
-                            {{ $order->address->address_line1 }}<br> {{ $order->address->address_line2 }}<br>
-                            {{ $order->address->city }}, {{ $order->address->state }}, {{ $order->address->zip_code }},
-                            {{ $order->address->country }}.</p>
+                            {{ $order->address->address_line1 ?? 'N/A'}}<br> {{ $order->address->address_line2 ?? 'N/A'}}<br>
+                            {{ $order->address->city ?? 'N/A'}}, {{ $order->address->state ?? 'N/A'}}, {{ $order->address->zip_code ?? 'N/A' }},
+                            {{ $order->address->country ?? 'N/A' }}.</p>
                     </div>
                     {{-- <div class="col-lg-3 pr-0">
                         <p class="mt-5 mb-2 "><b>Payment Detail</b></p>
@@ -61,7 +61,6 @@
                                     <th>Product Name</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
-                                    <th>Vendor</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
@@ -69,10 +68,9 @@
                                 @foreach($order->orderItems as $orderItem)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $orderItem->product->name }}</td>
+                                        <td>{{ $orderItem->product->name ?? 'N/A'}}</td>
                                         <td>{{ $orderItem->price }}</td>
                                         <td>{{ $orderItem->quantity }}</td>
-                                        <td>{{ $orderItem->product->vendor->name }} ( {{ $orderItem->product->vendor->email }} )</td>
                                         <td>{{ $orderItem->quantity * $orderItem->price }}</td>
                                     </tr>
                                 @endforeach

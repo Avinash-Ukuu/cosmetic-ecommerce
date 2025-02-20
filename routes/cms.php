@@ -8,16 +8,13 @@ use App\Http\Controllers\cms\BrandController;
 use App\Http\Controllers\cms\OrderController;
 use App\Http\Controllers\cms\CommonController;
 use App\Http\Controllers\cms\ModuleController;
-use App\Http\Controllers\cms\VendorController;
 use App\Http\Controllers\cms\ProductController;
 use App\Http\Controllers\cms\CategoryController;
 use App\Http\Controllers\cms\CustomerController;
 use App\Http\Controllers\cms\DashboardController;
-use App\Http\Controllers\cms\InstructorController;
 use App\Http\Controllers\cms\PermissionController;
 use App\Http\Controllers\cms\ActivityLogsController;
 use App\Http\Controllers\cms\CouponController;
-// use App\Http\Controllers\cms\SubCategoryController;
 
 //dashboard
 Route::get('/dashboard',                    [DashboardController::class,'dashboard'])->name('dashboard');
@@ -50,10 +47,6 @@ Route::get('show-category-data',            [CategoryController::class,'showCate
 
 //Brand
 Route::resource('brand',                    BrandController::class);
-
-//Vendor
-Route::resource('vendor',                   VendorController::class);
-Route::post('update-vendor-status/{id}',    [VendorController::class,'updateVendorStatus'])->name('updateVendorStatus');
 
 // Blog
 Route::resource('blog',                     BlogController::class);

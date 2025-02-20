@@ -5,8 +5,6 @@ namespace App\Http\Controllers\cms;
 use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
-use App\Mail\UserMail;
-use App\Models\Vendor;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
@@ -323,7 +321,7 @@ class UserController extends Controller
 
     public function profile($id)
     {
-        $data['object']         =       User::with('vendor')->find($id);
+        $data['object']         =       User::find($id);
         if(empty($data['object']))
         {
             Session::flash('error','Data not found');
@@ -337,7 +335,7 @@ class UserController extends Controller
 
     public function storeProfile(Request $request,$id)
     {
-        $user                       =       User::with('vendor','instructor')->find($id);
+        $user                       =       User::find($id);
         if(empty($user))
         {
             Session::flash('error','Data not found');
@@ -355,56 +353,6 @@ class UserController extends Controller
         }
         $user->update();
 
-        if ($request->has('store_name') || $request->has('store_address') || $request->has('phone_number')) {
-            $vendor = $user->vendor ?? new Vendor();
-
-            // if ($request->hasFile('profile_pic')) {
-
-            //     if (!empty($vendor->profile_pic) && file_exists(public_path("uploads/vendors/{$vendor->profile_pic}"))) {
-            //         File::delete(public_path("uploads/vendors/{$vendor->profile_pic}"));
-            //     }
-
-            //     $userProfilePicPath = public_path("uploads/users/{$user->profile_pic}");
-            //     $vendorProfilePicName = 'vendor_' . Carbon::now()->timestamp . '.' . pathinfo($user->profile_pic, PATHINFO_EXTENSION);
-            //     $vendorProfilePicPath = public_path("uploads/vendors/{$vendorProfilePicName}");
-
-            //     if (file_exists($userProfilePicPath)) {
-            //         if (!file_exists(public_path('uploads/vendors'))) {
-            //             mkdir(public_path('uploads/vendors'), 0755, true);
-            //         }
-
-            //         copy($userProfilePicPath, $vendorProfilePicPath);
-            //         $vendor->profile_pic = $vendorProfilePicName;
-            //     }
-            // } else if (!$vendor->exists && !empty($user->profile_pic)) {
-
-            //     $userProfilePicPath = public_path("uploads/users/{$user->profile_pic}");
-            //     $vendorProfilePicName = 'vendor_' . Carbon::now()->timestamp . '.' . pathinfo($user->profile_pic, PATHINFO_EXTENSION);
-            //     $vendorProfilePicPath = public_path("uploads/vendors/{$vendorProfilePicName}");
-
-            //     if (file_exists($userProfilePicPath)) {
-            //         if (!file_exists(public_path('uploads/vendors'))) {
-            //             mkdir(public_path('uploads/vendors'), 0755, true);
-            //         }
-
-            //         copy($userProfilePicPath, $vendorProfilePicPath);
-            //         $vendor->profile_pic = $vendorProfilePicName;
-            //     }
-            // }
-
-            $vendor->name               = $user->name;
-            $vendor->email              = $user->email;
-            $vendor->store_name         = $request->input('store_name', $vendor->store_name);
-            $vendor->store_address      = $request->input('store_address', $vendor->store_address);
-            $vendor->phone_number       = $request->input('phone_number', $vendor->phone_number);
-            $vendor->status             = $vendor->exists ? $vendor->status : 'approved';
-            $vendor->save();
-
-            if (!$user->vendor) {
-                $user->vendor_id = $vendor->id;
-                $user->update();
-            }
-        }
         $data['message']        =   auth()->user()->name . " has updated the profile";
         $data['action']         =   "updated";
         $data['module']         =   "user";

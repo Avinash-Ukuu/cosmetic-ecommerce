@@ -41,16 +41,15 @@ class OrderController extends Controller
                         return '<label class="badge badge-outline-warning">' . ucfirst($data->payment_status) . '</label>';
                     }
                 })
-                ->editColumn('action', function ($data) {
-                    if (auth()->user()->hasRole('admin') || auth()->user()->super_admin == 1) {
-                        $aboutUrl   =   route('order.show', ['order' => $data->id]);
-                        return '<a href="' . $aboutUrl . '"><i class="fa fa-info-circle"></i></a>';
-                    } else {
-                        $editUrl    =   route('order.edit', ['order' => $data->id]);
-                        return '<a href="' . $editUrl . '"><i class="fa fa-edit"></i></a>';
-                    }
+                ->editColumn('info',function($data){
+                    $aboutUrl   =   route('order.show', ['order' => $data->id]);
+                    return '<a href="' . $aboutUrl . '"><i class="fa fa-info-circle"></i></a>';
                 })
-                ->rawColumns(['status', 'action', 'payment_status'])
+                ->editColumn('action', function ($data) {
+                    $editUrl    =   route('order.edit', ['order' => $data->id]);
+                    return '<a href="' . $editUrl . '"><i class="fa fa-edit"></i></a>';
+                })
+                ->rawColumns(['status','info' ,'action', 'payment_status'])
                 ->make(true);
         }
 
@@ -80,7 +79,7 @@ class OrderController extends Controller
     {
         abort_if(!auth()->user()->hasRole('admin'), 403);
 
-        $data['order']      =       Order::with(['customer.customer', 'orderItems.product.vendor', 'payment', 'address'])->find($id);
+        $data['order']      =       Order::with(['customer.customer', 'orderItems.product', 'payment', 'address'])->find($id);
 
         if (empty($data['order'])) {
             Session::flash('error', 'Data Not Found');
@@ -96,16 +95,8 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        $data['object']     =   Order::whereHas('orderItems.product', function ($query) {
-            $query->where('vendor_id', auth()->user()->id);
-        })
-            ->with([
+        $data['object']     =   Order::with([
                 'customer',
-                'orderItems' => function ($query) {
-                    $query->whereHas('product', function ($q) {
-                        $q->where('vendor_id', auth()->user()->id);
-                    });
-                },
                 'orderItems.product',
                 'payment'
             ])->where('id', $id)->first();
@@ -163,30 +154,6 @@ class OrderController extends Controller
         $allDelivered       =   $order->orderItems()->where('status', '<>', 'delivered')->doesntExist();
 
         if ($allDelivered) {
-
-            $vendorPayments =   [];
-
-            foreach ($order->orderItems as $item) {
-                $vendorId   = $item->product->vendor->id;
-                $itemTotal  = $item->price * $item->quantity;
-
-                if (!isset($vendorPayments[$vendorId])) {
-                    $vendorPayments[$vendorId] = 0;
-                }
-
-                $vendorPayments[$vendorId] += $itemTotal;
-            }
-
-            // Insert payment records for each vendor
-            foreach ($vendorPayments as  $vendorId => $amount) {
-                EmployeePayment::create([
-                    'user_id'               => $vendorId ,
-                    'amount'                => $amount,
-                    'user_type'             => 'vendor',
-                    'payment_status'        => 'pending',
-                    'payment_created_at'    => now(),
-                ]);
-            }
 
             $order->status = 'completed';
             $order->save();

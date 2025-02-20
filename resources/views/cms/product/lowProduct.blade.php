@@ -23,11 +23,9 @@
                     <div class="col-10">
                         <h4 class="card-title">Product Table</h4>
                     </div>
-                    @if(auth()->user()->hasRole('vendor') && !empty(auth()->user()->vendor_id))
-                        <div class="col-2 text-right">
-                            <a href="{{ route('product.create') }}"><label class="badge badge-outline-primary"><i class="mdi mdi-account-plus"></i> Add</label></a>
-                        </div>
-                    @endif
+                    <div class="col-2 text-right">
+                        <a href="{{ route('product.create') }}"><label class="badge badge-outline-primary"><i class="mdi mdi-account-plus"></i> Add</label></a>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped" id="example1">

@@ -46,6 +46,9 @@
                                     Payment Status
                                 </th>
                                 <th>
+                                    Info
+                                </th>
+                                <th>
                                     Action
                                 </th>
                             </tr>
@@ -90,6 +93,12 @@
                     {
                         data: 'payment_status',
                         name: 'payment_status',
+                    },
+                    {
+                        data: 'info',
+                        name: 'info',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'action',

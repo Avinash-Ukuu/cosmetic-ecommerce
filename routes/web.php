@@ -17,12 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect(route('login'));
 });
-Route::get('/vendor-form', function () {
-    return view('from.fromindex');
-});
-Route::get('/customer-form', function () {
-    return view('from.customerForm');
-});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

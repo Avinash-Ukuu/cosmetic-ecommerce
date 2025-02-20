@@ -47,26 +47,6 @@
                     </div>
                 </div>
 
-                @if($object->hasRole('vendor'))
-                    <div class="row">
-                        <div class="form-group col-4">
-                            {!! Form::label('phone_number', 'Phone Number') !!}<span style="color: red;"> *</span>
-                            {!! Form::text('phone_number', $object->vendor->phone_number ?? null, ['class' => 'form-control phone_number', 'placeholder' => 'Enter Phone Number', 'required']) !!}
-                            <small id="phoneError" style="color: red; display: none;"> Please enter numeric value  and maximum 10 digit.
-                            </small>
-                        </div>
-
-                        <div class="form-group col-4">
-                            {!! Form::label('store_name', 'Store Name') !!}<span style="color: red;"> *</span>
-                            {!! Form::text('store_name',$object->vendor->store_name ?? null, ['class' => 'form-control store_name', 'placeholder' => 'Enter Store Name', 'required']) !!}
-                        </div>
-                        <div class="form-group col-4">
-                            {!! Form::label('store_address', 'Store Address') !!}<span style="color: red;"> *</span>
-                            {!! Form::text('store_address',$object->vendor->store_address ?? null, ['class' => 'form-control store_address', 'placeholder' => 'Enter Store Address', 'required']) !!}
-                        </div>
-                    </div>
-                @endif
-
                 <div class="form-group" id="image">
                     {{ Form::label('profile_pic', 'Profile Picture') }}
                     {{ Form::file('profile_pic', ['class' => 'file-upload-default','id'=>'profile_pic', 'accept' => 'image/jpg, image/jpeg']) }}

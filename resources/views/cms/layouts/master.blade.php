@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Learntribe Ecommerce</title>
+    <title>Glamify Beauty</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('assets/skydash/vendors/feather/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/skydash/vendors/ti-icons/css/themify-icons.css') }}">
@@ -85,13 +85,13 @@
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2024.
-                            Premium from Learntribe. All rights reserved.</span>
+                            Premium from Glamify. All rights reserved.</span>
                         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made
                             with <i class="ti-heart text-danger ml-1"></i></span>
                     </div>
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Made by <a
-                                href="javaScript:void(0)">Ukuu IT Solutions</a></span>
+                                href="javaScript:void(0)">Avinash</a></span>
                     </div>
                 </footer>
                 <!-- partial -->

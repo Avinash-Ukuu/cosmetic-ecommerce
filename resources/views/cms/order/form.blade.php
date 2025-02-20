@@ -30,14 +30,14 @@
                 <div class="container-fluid d-flex justify-content-between">
                     <div class="col-lg-3 ps-0">
                         <p class="mt-5 mb-2"><b>Customer Detail</b></p>
-                        <p>{{ $object->customer->name }},<br>{{ $object->customer->email }},<br>{{ $object->customer->customer->phone_number }}.</p>
+                        <p>{{ $object->customer->name ?? 'N/A' }},<br>{{ $object->customer->email ?? 'N/A'}},<br>{{ $object->customer->customer->phone_number ?? 'N/A'}}.</p>
                     </div>
                     <div class="col-lg-3 pr-0">
                         <p class="mt-5 mb-2"><b>Shipping Address</b></p>
                         <p>
-                            {{ $object->address->address_line1 }}<br> {{ $object->address->address_line2 }}<br>
-                            {{ $object->address->city }}, {{ $object->address->state }}, {{ $object->address->zip_code }},
-                            {{ $object->address->country }}.</p>
+                            {{ $object->address->address_line1 ?? 'N/A'}}<br> {{ $object->address->address_line2 ?? 'N/A'}}<br>
+                            {{ $object->address->city ?? 'N/A'}}, {{ $object->address->state ?? 'N/A'}}, {{ $object->address->zip_code ?? 'N/A'}},
+                            {{ $object->address->country ?? 'N/A'}}.</p>
                     </div>
                     {{-- <div class="col-lg-3 pr-0">
                         <p class="mt-5 mb-2 "><b>Payment Detail</b></p>
@@ -72,7 +72,7 @@
                                         <input type="hidden" value="{{$orderItem->quantity}}" name="quantity">
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $orderItem->product->name }}</td>
+                                            <td>{{ $orderItem->product->name ?? 'N/A'}}</td>
                                             <td>{{ $orderItem->price }}</td>
                                             <td>{{ $orderItem->quantity }}</td>
                                             @if($orderItem->status == 'delivered')

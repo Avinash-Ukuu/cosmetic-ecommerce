@@ -31,7 +31,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product            =       Product::with('productImages','category','vendor','brand','reviews','productColors')->where('publish_type','publish')->where('id', $id)->first();
+        $product            =       Product::with('productImages','category','brand','reviews','productColors')->where('publish_type','publish')->where('id', $id)->first();
         if(empty($product))
         {
             return  response()->json('Data not found',404);
