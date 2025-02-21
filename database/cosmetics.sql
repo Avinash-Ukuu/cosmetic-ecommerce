@@ -581,7 +581,7 @@ CREATE TABLE `otps` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) DEFAULT NULL,
   `otp_code` int(11) DEFAULT NULL,
-  `expires_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `expires_at` varchar(255) NOT NULL DEFAULT 'current_timestamp()',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -737,6 +737,38 @@ CREATE TABLE `products` (
 
 insert  into `products`(`id`,`category_id`,`brand_id`,`name`,`slug`,`description`,`price_without_tax`,`tax`,`sale_price`,`mrp_price`,`quantity`,`unit`,`weight`,`publish_type`,`product_created_at`,`created_at`,`updated_at`) values 
 (1,1,1,'skincare','skincare','<p>test</p>','1200','7','1284.00','1500',5,NULL,'12 ml','publish','2025-02-20 12:30:20','2025-02-20 12:30:20','2025-02-20 12:30:20');
+
+/*Table structure for table `review_images` */
+
+DROP TABLE IF EXISTS `review_images`;
+
+CREATE TABLE `review_images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `review_id` int(11) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `review_images` */
+
+/*Table structure for table `reviews` */
+
+DROP TABLE IF EXISTS `reviews`;
+
+CREATE TABLE `reviews` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `comment` text DEFAULT NULL,
+  `rating` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `reviews` */
 
 /*Table structure for table `role_user` */
 
