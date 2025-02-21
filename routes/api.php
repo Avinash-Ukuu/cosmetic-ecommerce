@@ -39,8 +39,6 @@ Route::post('/login',                       [AuthController::class, 'login']);
 //category
 Route::get('category-list',                 [CategoryController::class,'index']);
 Route::get('category/{id}',                 [CategoryController::class,'show']);
-Route::get('category-types',                [CategoryController::class,'categoryTypes']);
-Route::get('category-type-data/{slug}',     [CategoryController::class,'categoryTypeData']);
 
 //Product
 Route::get('product-list',                  [ProductController::class,'index']);

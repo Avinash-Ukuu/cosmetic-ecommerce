@@ -18,7 +18,7 @@ class BlogController extends Controller
     public function show(string $id)
     {
         $blog            =       Blog::where('publish_type','publish')->where('id', $id)->first();
-        if(empty($blogs))
+        if(empty($blog))
         {
             return  response()->json('Data not found',404);
         }

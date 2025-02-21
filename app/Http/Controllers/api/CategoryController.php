@@ -16,7 +16,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories     =   Category::whereNull('parent_id')->where('is_active',1)->with('allChildren')->get();
+        $categories     =   Category::where('is_active',1)->get();
 
         return  response()->json($categories,200);
     }
@@ -34,7 +34,7 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category       =       Category::with('products.productImages','allChildren.products.productImages')->where('is_active',1)->where('id', $id)->first();
+        $category       =       Category::with('products.productImages')->where('is_active',1)->where('id', $id)->first();
 
         if(empty($category))
         {
@@ -58,22 +58,5 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function categoryTypes()
-    {
-        $categoryTypes     =   CategoryType::with('categories.allChildren')->get();
-
-        return  response()->json($categoryTypes,200);
-    }
-
-    public function categoryTypeData($slug)
-    {
-        $categoryTypeData       =       CategoryType::with('categories.allChildren')->where('slug',$slug)->first();
-        if(empty($categoryTypeData))
-        {
-            return  response()->json('Data not found',404);
-        }
-        return  response()->json($categoryTypeData,200);
     }
 }

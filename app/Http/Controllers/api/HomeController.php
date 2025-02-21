@@ -16,7 +16,7 @@ class HomeController extends Controller
         $data['otherProducts']          =       Product::with('productImages')->where('id','<>', $data['bannerProduct']->id)->where('publish_type','publish')
                                                 ->orderBy('product_created_at','desc')->take(8)->get();
 
-        $data['parentCategories']       =       Category::whereNull('parent_id')->get();
+        $data['categories']             =       Category::where('is_active',1)->get();
         $data['blogs']                  =       Blog::where('publish_type','publish')->orderBy('created_at','desc')->take(4)->get();
 
         return  response()->json($data,200);

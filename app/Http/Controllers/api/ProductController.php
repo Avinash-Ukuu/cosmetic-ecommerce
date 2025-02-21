@@ -13,7 +13,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products     =   Product::with('productImages','category','brand','productColors')->where('publish_type','publish')->orderBy('product_created_at','desc')->get();
+        $products     =   Product::with('productImages','category','brand')->where('publish_type','publish')->orderBy('product_created_at','desc')->get();
 
         return  response()->json($products,200);
     }
@@ -31,12 +31,12 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product            =       Product::with('productImages','category','brand','reviews','productColors')->where('publish_type','publish')->where('id', $id)->first();
+        $product            =       Product::with('productImages','category','brand','reviews')->where('publish_type','publish')->where('id', $id)->first();
         if(empty($product))
         {
             return  response()->json('Data not found',404);
         }
-        $otherProducts      =       Product::with('productImages','brand','productColors')->where('publish_type','publish')->where('id','<>',$id)->orderBy('product_created_at', 'desc')->take(10)->get();
+        $otherProducts      =       Product::with('productImages','brand')->where('publish_type','publish')->where('id','<>',$id)->orderBy('product_created_at', 'desc')->take(10)->get();
 
         return  response()->json(['product'=>$product,'otherProducts'=>$otherProducts],200);
     }
