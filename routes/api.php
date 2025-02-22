@@ -12,6 +12,7 @@ use App\Http\Controllers\api\ReviewController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\WishlistController;
+use App\Http\Controllers\api\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,8 @@ Route::middleware('api.token')->group(function () {
     Route::post('/logout',                  [AuthController::class, 'logout']);
     Route::post('/update-profile',          [AuthController::class, 'updateProfile']);
     Route::post('/store-address',           [AuthController::class, 'storeAddress']);
+    Route::post('/forgot-password',         [ForgotPasswordController::class, 'sendResetLink']);
+    Route::post('/reset-password',          [ForgotPasswordController::class, 'resetPassword']);
     Route::post('/toggle-wishlist',         [WishlistController::class, 'toggleWishlist']);
     Route::get('/wishlist',                 [WishlistController::class, 'getWishlist']);
     Route::post('/add-to-cart',             [CartController::class, 'addToCart']);
