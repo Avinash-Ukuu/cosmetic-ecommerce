@@ -46,9 +46,6 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $duplicateCategory                =   Category::where('name',strtolower($request->name))->exists();
-        if($duplicateCategory){return back()->with("error","Category already exists");}
-
         $category               =       new Category();
         $this->authorize('create',$category);
         $category->name         =       $request->name;
@@ -107,9 +104,6 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, string $id)
     {
-        $duplicateCategory                =   Category::where("id","<>",$id)->where('name',strtolower($request->name))->exists();
-        if($duplicateCategory){return back()->with("error","Category already exists");}
-
         $this->authorize('update',new Category());
         $category               =       Category::find($id);
         if(empty($category))
