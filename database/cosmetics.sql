@@ -254,6 +254,22 @@ insert  into `addresses`(`id`,`customer_id`,`address_line1`,`address_line2`,`cit
 (1,1,'house number; 12, Street no. 4,','house number; 12, Street no. 4,','Jalandhar city','Punjab','144001','India','2024-09-04 09:00:05','2024-09-04 09:00:05'),
 (3,1,'test 12, street 6,','test 12, street 6,','Jalandhar city','Punjab','144001','India','2024-10-22 09:28:29','2024-09-20 11:20:19');
 
+/*Table structure for table `banners` */
+
+DROP TABLE IF EXISTS `banners`;
+
+CREATE TABLE `banners` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `banners` */
+
 /*Table structure for table `blogs` */
 
 DROP TABLE IF EXISTS `blogs`;
@@ -701,12 +717,9 @@ CREATE TABLE `product_images` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `product_images` */
-
-insert  into `product_images`(`id`,`product_id`,`url`,`created_at`,`updated_at`) values 
-(1,1,'product_1_1_1_1740034820.png','2025-02-20 12:30:20','2025-02-20 12:30:20');
 
 /*Table structure for table `products` */
 

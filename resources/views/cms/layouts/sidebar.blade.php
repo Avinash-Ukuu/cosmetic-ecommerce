@@ -106,6 +106,14 @@
 
         @can('admin',auth()->user())
 
+            <!-- Banner -->
+            <li class="nav-item @if(Route::currentRouteName() == 'banner.index') active @endif">
+                <a class="nav-link" href="{{ route('banner.index') }}">
+                    <i class="icon-tag menu-icon"></i>
+                    <span class="menu-title">Banner</span>
+                </a>
+            </li>
+
             <!-- Coupon -->
             <li class="nav-item @if(Route::currentRouteName() == 'coupon.index') active @endif">
                 <a class="nav-link" href="{{ route('coupon.index') }}">

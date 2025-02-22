@@ -8,6 +8,7 @@ use App\Http\Controllers\api\CartController;
 use App\Http\Controllers\api\HomeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\CouponController;
+use App\Http\Controllers\api\ReviewController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\WishlistController;
@@ -67,4 +68,5 @@ Route::middleware('api.token')->group(function () {
     Route::delete('/remove-from-cart',      [CartController::class, 'removeFromCart']);
     Route::get('/get-cart',                 [CartController::class, 'getCart']);
     Route::get('/coupon-list/{type}',       [CouponController::class, 'index']);
+    Route::post('/submit-review',           [ReviewController::class, 'store']);
 });

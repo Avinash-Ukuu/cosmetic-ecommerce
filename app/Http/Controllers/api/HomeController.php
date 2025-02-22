@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Models\Blog;
+use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -12,12 +13,19 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $data['bannerProduct']          =       Product::with('productImages')->where('publish_type','publish')->orderBy('product_created_at','desc')->first();
-        $data['otherProducts']          =       Product::with('productImages')->where('id','<>', $data['bannerProduct']->id)->where('publish_type','publish')
-                                                ->orderBy('product_created_at','desc')->take(8)->get();
+        $data['banner']                 =       Banner::first();
+        $data['products']               =       Product::with('productImages')->where('publish_type','publish')
+                                                ->orderBy('product_created_at','desc')->take(5)->get();
 
-        $data['categories']             =       Category::where('is_active',1)->get();
-        $data['blogs']                  =       Blog::where('publish_type','publish')->orderBy('created_at','desc')->take(4)->get();
+        $data['glamifyBodyScrubs']      =       Category::with('products')->whereHas('products',function($query){
+                                                    $query->take(4);
+                                                })->where('slug','glamify-body-scrubs')->where('is_active',1)->get();
+
+        $data['categories']             =       Category::with('products')->whereHas('products',function($query){
+                                                    $query->take(6);
+                                                })->where('is_active',1)->get();
+
+        $data['blogs']                  =       Blog::where('publish_type','publish')->orderBy('created_at','desc')->take(3)->get();
 
         return  response()->json($data,200);
     }

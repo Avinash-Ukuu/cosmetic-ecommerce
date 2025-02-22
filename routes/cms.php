@@ -6,7 +6,9 @@ use App\Http\Controllers\cms\RoleController;
 use App\Http\Controllers\cms\UserController;
 use App\Http\Controllers\cms\BrandController;
 use App\Http\Controllers\cms\OrderController;
+use App\Http\Controllers\cms\BannerController;
 use App\Http\Controllers\cms\CommonController;
+use App\Http\Controllers\cms\CouponController;
 use App\Http\Controllers\cms\ModuleController;
 use App\Http\Controllers\cms\ProductController;
 use App\Http\Controllers\cms\CategoryController;
@@ -14,7 +16,6 @@ use App\Http\Controllers\cms\CustomerController;
 use App\Http\Controllers\cms\DashboardController;
 use App\Http\Controllers\cms\PermissionController;
 use App\Http\Controllers\cms\ActivityLogsController;
-use App\Http\Controllers\cms\CouponController;
 
 //dashboard
 Route::get('/dashboard',                    [DashboardController::class,'dashboard'])->name('dashboard');
@@ -66,6 +67,9 @@ Route::post('order-item/update-status/{id}',[OrderController::class,'updateOrder
 
 //Coupon
 Route::resource('coupon',                   CouponController::class);
+
+//Banner
+Route::resource('banner',                   BannerController::class);
 
 //Common routes
 
