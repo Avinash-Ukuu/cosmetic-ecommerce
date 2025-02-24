@@ -9,10 +9,12 @@ use App\Http\Controllers\api\HomeController;
 use App\Http\Controllers\api\BrandController;
 use App\Http\Controllers\api\CouponController;
 use App\Http\Controllers\api\ReviewController;
+use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\WishlistController;
 use App\Http\Controllers\api\ForgotPasswordController;
+use App\Http\Controllers\api\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,4 +74,10 @@ Route::middleware('api.token')->group(function () {
     Route::get('/get-cart',                 [CartController::class, 'getCart']);
     Route::get('/coupon-list/{type}',       [CouponController::class, 'index']);
     Route::post('/submit-review',           [ReviewController::class, 'store']);
+
+    Route::post('/place-order',             [OrderController::class, 'placeOrder']);
+
+    Route::post('/checkout',                [PaymentController::class, 'createCheckoutSession'])->name('checkout');
+    Route::get('/payment/success/{order}',  [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment/cancel/{order}',   [PaymentController::class, 'cancel'])->name('payment.cancel');
 });
