@@ -109,7 +109,7 @@
             <!-- Banner -->
             <li class="nav-item @if(Route::currentRouteName() == 'banner.index') active @endif">
                 <a class="nav-link" href="{{ route('banner.index') }}">
-                    <i class="icon-tag menu-icon"></i>
+                    <i class="icon-image menu-icon"></i>
                     <span class="menu-title">Banner</span>
                 </a>
             </li>
