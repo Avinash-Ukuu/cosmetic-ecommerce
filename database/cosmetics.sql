@@ -319,6 +319,22 @@ insert  into `brands`(`id`,`name`,`slug`,`position`,`is_active`,`created_at`,`up
 (6,'samsung','samsung',6,1,'2024-09-05 07:29:45','2024-09-05 07:29:45'),
 (7,'iphone','iphone',7,1,'2024-09-05 07:29:56','2024-09-05 07:29:56');
 
+/*Table structure for table `carts` */
+
+DROP TABLE IF EXISTS `carts`;
+
+CREATE TABLE `carts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `quantity` int(11) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `carts` */
+
 /*Table structure for table `categories` */
 
 DROP TABLE IF EXISTS `categories`;
@@ -579,8 +595,6 @@ CREATE TABLE `orders` (
   `status` varchar(255) DEFAULT NULL,
   `address_id` int(11) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL,
-  `transaction_id` varchar(255) DEFAULT NULL,
-  `phonepe_response` text DEFAULT NULL,
   `order_created_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -845,6 +859,21 @@ insert  into `users`(`id`,`name`,`email`,`email_verified_at`,`password`,`remembe
 (1,'Technical Admin','technicaladmin@gmail.com',NULL,'$2y$12$qknnmL2OV8cv29EGIbM2wOzoP6DC0n0VtHT2VSlHcAvW02ChTox3G',NULL,1,1,'user_1740034663.jpg','2025-02-02 05:58:35','2025-02-20 12:28:25'),
 (2,'admin','admin@gmail.com',NULL,'$2y$12$wsy83ruH3W3R7VWNejE98.4SZGN91UibqcH69qXxdvoSLWlYl.ZHi',NULL,1,NULL,'user_1739898611.jpeg','2025-02-18 17:10:11','2025-02-18 17:10:11'),
 (3,'test customer','customer@gmail.com',NULL,'$2y$12$wsy83ruH3W3R7VWNejE98.4SZGN91UibqcH69qXxdvoSLWlYl.ZHi',NULL,1,NULL,NULL,'2025-02-19 09:50:17','2025-02-19 09:50:22');
+
+/*Table structure for table `wishlists` */
+
+DROP TABLE IF EXISTS `wishlists`;
+
+CREATE TABLE `wishlists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `wishlists` */
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
