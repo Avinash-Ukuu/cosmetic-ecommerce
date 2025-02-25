@@ -116,6 +116,7 @@ class UserController extends Controller
         $user->is_active        =   1;
         $password               =   Str::random(8);
         $user->password         =   Hash::make($password);
+        $user->api_token        =   null;
         if ($request->has("profile_pic")) {
             $imageName  = "user_" . Carbon::now()->timestamp . '.' . $request->file('profile_pic')->getClientOriginalExtension();
             $request->file('profile_pic')->move(public_path('uploads/users/'), $imageName);
