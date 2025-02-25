@@ -9,15 +9,16 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function placeOrder(Request $request)
     {
-        $userId = $request->user_id;
+        $user       = Auth::user();
 
         // Fetch cart items for the user
-        $cartItems = Cart::where('customer_id', $userId)->get();
+        $cartItems = Cart::where('customer_id', $user->id)->get();
 
         if ($cartItems->isEmpty()) {
             return response()->json(['error' => 'Your cart is empty!'], 400);
@@ -30,7 +31,7 @@ class OrderController extends Controller
 
             // Create order
             $order = Order::create([
-                'user_id' => $userId,
+                'user_id' => $user->id,
                 // 'order_number' => 'ORD-' . Str::random(10),
                 'total_amount' => $totalAmount,
                 'status' => 'pending', // Default status
@@ -56,7 +57,7 @@ class OrderController extends Controller
             }
 
             // Clear cart after order placement
-            Cart::where('customer_id', $userId)->delete();
+            Cart::where('customer_id', $user->id)->delete();
 
             DB::commit();
 

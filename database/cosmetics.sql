@@ -846,6 +846,7 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `super_admin` tinyint(1) DEFAULT NULL,
+  `api_token` text DEFAULT NULL,
   `profile_pic` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -855,10 +856,10 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`name`,`email`,`email_verified_at`,`password`,`remember_token`,`is_active`,`super_admin`,`profile_pic`,`created_at`,`updated_at`) values 
-(1,'Technical Admin','technicaladmin@gmail.com',NULL,'$2y$12$qknnmL2OV8cv29EGIbM2wOzoP6DC0n0VtHT2VSlHcAvW02ChTox3G',NULL,1,1,'user_1740034663.jpg','2025-02-02 05:58:35','2025-02-20 12:28:25'),
-(2,'admin','admin@gmail.com',NULL,'$2y$12$wsy83ruH3W3R7VWNejE98.4SZGN91UibqcH69qXxdvoSLWlYl.ZHi',NULL,1,NULL,'user_1739898611.jpeg','2025-02-18 17:10:11','2025-02-18 17:10:11'),
-(3,'test customer','customer@gmail.com',NULL,'$2y$12$wsy83ruH3W3R7VWNejE98.4SZGN91UibqcH69qXxdvoSLWlYl.ZHi',NULL,1,NULL,NULL,'2025-02-19 09:50:17','2025-02-19 09:50:22');
+insert  into `users`(`id`,`name`,`email`,`email_verified_at`,`password`,`remember_token`,`is_active`,`super_admin`,`api_token`,`profile_pic`,`created_at`,`updated_at`) values 
+(1,'Technical Admin','technicaladmin@gmail.com',NULL,'$2y$12$qknnmL2OV8cv29EGIbM2wOzoP6DC0n0VtHT2VSlHcAvW02ChTox3G',NULL,1,1,NULL,'user_1740034663.jpg','2025-02-02 05:58:35','2025-02-20 12:28:25'),
+(2,'admin','admin@gmail.com',NULL,'$2y$12$wsy83ruH3W3R7VWNejE98.4SZGN91UibqcH69qXxdvoSLWlYl.ZHi',NULL,1,NULL,NULL,'user_1739898611.jpeg','2025-02-18 17:10:11','2025-02-18 17:10:11'),
+(3,'test customer','customer@gmail.com',NULL,'$2y$12$wsy83ruH3W3R7VWNejE98.4SZGN91UibqcH69qXxdvoSLWlYl.ZHi',NULL,1,NULL,NULL,NULL,'2025-02-19 09:50:17','2025-02-19 09:50:22');
 
 /*Table structure for table `wishlists` */
 
