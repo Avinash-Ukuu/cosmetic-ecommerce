@@ -9,16 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class CommonMail extends Mailable
+class OrderItemStatusMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
+
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public $orderData;
+
+    public function __construct($orderData)
     {
-        $this->data = $data;
+        $this->orderData = $orderData;
     }
 
     /**
@@ -27,7 +29,7 @@ class CommonMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->data['subject'],
+            subject: 'Order Item Status Mail',
         );
     }
 
@@ -37,7 +39,7 @@ class CommonMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.commonMail',
+            view: 'email.orderItemStatus',
         );
     }
 

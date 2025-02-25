@@ -6,7 +6,9 @@ use Stripe\Stripe;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Stripe\Checkout\Session;
+use App\Mail\OrderStatusMail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -38,11 +40,16 @@ class PaymentController extends Controller
     {
         $order = Order::findOrFail($orderId);
         $order->update(['payment_status' => 'paid']);
+        Mail::to([$order->customer->email,'glamifyy.ae@gmail.com'])->send(new OrderStatusMail($order, 'paid'));
+
         return redirect('/orders')->with('success', 'Payment successful!');
     }
 
     public function cancel($orderId)
     {
+        $order = Order::findOrFail($orderId);
+        $order->update(['payment_status' => 'cancel']);
+        Mail::to([$order->customer->email,'glamifyy.ae@gmail.com'])->send(new OrderStatusMail($order, 'canceled'));
         return redirect('/orders')->with('error', 'Payment cancelled.');
     }
 }

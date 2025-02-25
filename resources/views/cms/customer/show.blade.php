@@ -80,7 +80,12 @@
                                                 Address {{ $loop->iteration }}
                                             </span>
                                             <address class="float-right text-muted ml-5">
-                                                {{ $address->address_line1 }}, {{ $address->address_line2 }}, {{ $address->city }}, {{ $address->state }}, {{ $address->country }}, {{ $address->zip_code }}
+                                                {{ $address->full_name }}, {{ $address->mobile_number ?? 'N/A'}}, {{ $address->email }}, {{ $address->building_name }}, {{ $address->street_address }},
+                                                {{ $address->area }}
+                                                {{ $address->emirate }}
+                                                {{ $address->po_box ?? 'N/A'}}
+                                                {{ $address->landmark ?? 'N/A'}}
+                                                {{ $address->delivery_instructions ?? 'N/A' }}
                                             </address>
                                         </div>
                                     @endforeach

@@ -35,9 +35,10 @@
                     <div class="col-lg-3 pr-0">
                         <p class="mt-5 mb-2"><b>Shipping Address</b></p>
                         <p>
-                            {{ $object->address->address_line1 ?? 'N/A'}}<br> {{ $object->address->address_line2 ?? 'N/A'}}<br>
-                            {{ $object->address->city ?? 'N/A'}}, {{ $object->address->state ?? 'N/A'}}, {{ $object->address->zip_code ?? 'N/A'}},
-                            {{ $object->address->country ?? 'N/A'}}.</p>
+                            {{ $object->address->full_name ?? 'N/A'}}<br> {{ $object->address->mobile_number ?? 'N/A'}}<br>
+                            {{ $object->address->email ?? 'N/A'}}, {{ $object->address->building_name ?? 'N/A'}}, {{ $object->address->street_address ?? 'N/A' }},
+                            {{ $object->address->area ?? 'N/A' }}, {{ $object->address->emirate ?? 'N/A' }}, {{ $object->address->po_box ?? 'N/A' }}, {{ $object->address->landmark ?? 'N/A' }},
+                            {{ $object->address->delivery_instructions ?? 'N/A' }}.</p>
                     </div>
                     {{-- <div class="col-lg-3 pr-0">
                         <p class="mt-5 mb-2 "><b>Payment Detail</b></p>

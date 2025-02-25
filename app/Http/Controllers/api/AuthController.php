@@ -215,25 +215,33 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
         $validatedData  =   $request->validate([
-                                    'addresses' => 'required|array',
-                                    'addresses.*.address_line1' => 'required|string',
-                                    'addresses.*.address_line2' => 'nullable|string',
-                                    'addresses.*.city' => 'required|string|max:255',
-                                    'addresses.*.state' => 'required|string|max:255',
-                                    'addresses.*.zip_code' => 'required|string|max:10',
-                                    'addresses.*.country' => 'required|string|max:255',
+                                    'addresses'                 => 'required|array',
+                                    'addresses.*.full_name'     => 'required|string|max:255',
+                                    'addresses.*.mobile_number' => 'nullable|string|regex:/^\+971[0-9 ]{7,12}$/',
+                                    'addresses.*.email'         => 'required|email|max:255',
+                                    'addresses.*.building_name' => 'required|string|max:255',
+                                    'addresses.*.street_address'=> 'required|string|max:255', // Increased length to allow full address
+                                    'addresses.*.area'          => 'required|string|max:255',
+                                    'addresses.*.emirate'       => 'required|string',
+                                    'addresses.*.po_box'        => 'nullable|string|max:50', // Optional field for PO Box
+                                    'addresses.*.landmark'      => 'nullable|string|max:255', // Optional field for additional info
+                                    'addresses.*.delivery_instructions' => 'nullable|string|max:500' // Optional for additional delivery details
                                 ]);
 
         $addresses = [];
         foreach ($validatedData['addresses'] as $addressData) {
             $addresses[] = Address::create([
                 'customer_id'       =>      $user->customer->id,
-                'address_line1'     =>      $addressData['address_line1'],
-                'address_line2'     =>      $addressData['address_line2'],
-                'city'              =>      $addressData['city'],
-                'state'             =>      $addressData['state'],
-                'zip_code'          =>      $addressData['zip_code'],
-                'country'           =>      $addressData['country'],
+                'full_name'         =>      $addressData['full_name'],
+                'mobile_number'     =>      $addressData['mobile_number'],
+                'email'             =>      $addressData['email'],
+                'building_name'     =>      $addressData['building_name'],
+                'street_address'    =>      $addressData['street_address'],
+                'area'              =>      $addressData['area'],
+                'emirate'           =>      $addressData['emirate'],
+                'po_box'            =>      $addressData['po_box'],
+                'landmark'          =>      $addressData['landmark'],
+                'delivery_instructions'           =>      $addressData['landmark'],
             ]);
         }
 

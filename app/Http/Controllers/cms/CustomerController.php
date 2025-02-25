@@ -4,7 +4,6 @@ namespace App\Http\Controllers\cms;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Address;
 use App\Models\Customer;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -98,16 +97,6 @@ class CustomerController extends Controller
         $customer->user_id      =       $user->id;
         $customer->phone_number =       $request->phone_number;
         $customer->save();
-
-        // $address                =       new Address();
-        // $address->customer_id   =       $customer->id;
-        // $address->address_line1 =       $request->address_line1;
-        // $address->address_line2 =       $request->address_line2;
-        // $address->city          =       $request->city;
-        // $address->state         =       $request->state;
-        // $address->zip_code      =       $request->zip_code;
-        // $address->country       =       $request->country;
-        // $address->save();
 
         return response()->json(['success' => '200', 'message' => 'Customer Data Stored']);
     }

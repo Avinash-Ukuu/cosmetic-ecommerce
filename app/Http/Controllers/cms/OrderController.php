@@ -7,7 +7,9 @@ use App\Models\Product;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\EmployeePayment;
+use App\Mail\OrderItemStatusMail;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -35,7 +37,7 @@ class OrderController extends Controller
                     }
                 })
                 ->editColumn('payment_status', function ($data) {
-                    if ($data->payment_status == 'completed') {
+                    if ($data->payment_status == 'paid') {
                         return '<label class="badge badge-outline-success">' . ucfirst($data->payment_status) . '</label>';
                     } else {
                         return '<label class="badge badge-outline-warning">' . ucfirst($data->payment_status) . '</label>';
@@ -158,6 +160,18 @@ class OrderController extends Controller
             $order->status = 'completed';
             $order->save();
         }
+
+        $orderData = [
+            'order_number'      => $order->order_number,
+            'status'            => $orderItem->status,
+            'product_name'      => $orderItem->product->name,
+            'quantity'          => $orderItem->quantity,
+            'customer_name'     => $order->customer->name,
+            'customer_email'    => $order->customer->email,
+        ];
+
+        Mail::to($order->customer->email)->send(new OrderItemStatusMail($orderData));
+
         Session::flash('success', 'Status Updated');
 
         $data['message']        =   auth()->user()->name . " has updated the delivery status to ".$request->status."";
