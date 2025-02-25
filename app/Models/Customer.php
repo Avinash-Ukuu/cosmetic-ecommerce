@@ -30,7 +30,7 @@ class Customer extends Model
 
     public function wishlistProducts()
     {
-        return $this->belongsToMany(Product::class, 'wishlists', 'customer_id', 'product_id')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'wishlists', 'customer_id', 'product_id')->with('productImages')->withTimestamps();
     }
 
     public function cartItems()
