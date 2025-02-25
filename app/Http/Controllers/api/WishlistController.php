@@ -13,10 +13,7 @@ class WishlistController extends Controller
 {
     public function toggleWishlist(Request $request)
     {
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+        $user           = User::with('customer')->find($request->user_id);
 
         $productId      = $request->product_id;
         $product        = Product::where('id', $productId)->where('publish_type', 'publish')->first();
