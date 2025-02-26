@@ -171,7 +171,7 @@
                                     <td><label
                                             class="badge badge-{{ $order->status == 'delivered' ? 'success' : 'warning' }}">{{ ucfirst($order->status) }}</label>
                                     </td>
-                                    <td>{{ $order->order_created_at->format('d M, Y') }}</td>
+                                    <td>{{ $order->order_created_at }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
