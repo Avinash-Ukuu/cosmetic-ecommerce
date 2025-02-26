@@ -16,7 +16,7 @@ class DashboardController extends Controller
     {
         $order                  =       new Order();
         $data['totalOrders']    =       $order->count();
-        $data['totalRevenue']   =       $order->where('status', 'delivered')->sum('total_amount');
+        $data['totalRevenue']   =       $order->where('status', 'completed')->sum('total_amount');
         $data['totalCustomers'] =       User::whereHas('roles', function($query){
                                             $query->where('name','customer');
                                         })->count();
