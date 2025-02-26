@@ -214,10 +214,11 @@ class AuthController extends Controller
         {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
+
         $validatedData  =   $request->validate([
                                     'addresses'                 => 'required|array',
                                     'addresses.*.full_name'     => 'required|string|max:255',
-                                    'addresses.*.mobile_number' => 'nullable|string|regex:/^\+971[0-9 ]{7,12}$/',
+                                    'addresses.*.mobile_number' => 'nullable|string',
                                     'addresses.*.email'         => 'required|email|max:255',
                                     'addresses.*.building_name' => 'required|string|max:255',
                                     'addresses.*.street_address'=> 'required|string|max:255', // Increased length to allow full address
@@ -227,7 +228,7 @@ class AuthController extends Controller
                                     'addresses.*.landmark'      => 'nullable|string|max:255', // Optional field for additional info
                                     'addresses.*.delivery_instructions' => 'nullable|string|max:500' // Optional for additional delivery details
                                 ]);
-
+                                
         $addresses = [];
         foreach ($validatedData['addresses'] as $addressData) {
             $addresses[] = Address::create([
@@ -258,7 +259,7 @@ class AuthController extends Controller
         $validatedData      =   $request->validate([
                                     'address_id'    => 'required|exists:addresses,id',
                                     'full_name'     => 'required|string|max:255',
-                                    'mobile_number' => 'nullable|string|regex:/^\+971[0-9 ]{7,12}$/',
+                                    'mobile_number' => 'nullable|string',
                                     'email'         => 'required|email|max:255',
                                     'building_name' => 'required|string|max:255',
                                     'street_address'=> 'required|string|max:255', // Increased length to allow full address
