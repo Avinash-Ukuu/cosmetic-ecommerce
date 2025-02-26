@@ -42,7 +42,7 @@ class PaymentController extends Controller
         $order->update(['payment_status' => 'paid']);
         Mail::to([$order->customer->email,'glamifyy.ae@gmail.com'])->send(new OrderStatusMail($order, 'paid'));
 
-        return redirect('/orders')->with('success', 'Payment successful!');
+        return response()->json(['message' => 'Payment successful!'], 200);
     }
 
     public function cancel($orderId)
@@ -50,6 +50,7 @@ class PaymentController extends Controller
         $order = Order::findOrFail($orderId);
         $order->update(['payment_status' => 'cancel']);
         Mail::to([$order->customer->email,'glamifyy.ae@gmail.com'])->send(new OrderStatusMail($order, 'canceled'));
-        return redirect('/orders')->with('error', 'Payment cancelled.');
+
+        return response()->json(['message' => 'Payment cancelled'], 200);
     }
 }
