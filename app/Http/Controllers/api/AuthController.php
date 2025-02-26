@@ -240,7 +240,7 @@ class AuthController extends Controller
         $address->delivery_instructions =       $request->delivery_instructions;
         $address->save();
 
-        return response()->json(['message' => 'Address stored'], 200);
+        return response()->json($address, 200);
     }
 
     public function updateAddress(Request $request)
@@ -285,6 +285,20 @@ class AuthController extends Controller
         $address->delivery_instructions =       $request->delivery_instructions;
         $address->update();
 
-        return response()->json(['message' => 'Address Updated'], 200);
+        return response()->json($address, 200);
+    }
+
+    public function getAddress()
+    {
+        $user = Auth::user();
+        if(empty($user))
+        {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $addresses      =       $user->customer->addresses;
+
+        return  response()->json($addresses,200);
+
     }
 }
