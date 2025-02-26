@@ -63,6 +63,7 @@ Route::resource('customer',                 CustomerController::class);
 //Order
 Route::resource('order',                    OrderController::class);
 Route::post('order-item/update-status/{id}',[OrderController::class,'updateOrderItemStatus'])->name('updateOrderItemStatus');
+Route::get('/order/{order}/receipt',        [OrderController::class, 'generateReceipt'])->name('orderReceipt');
 
 
 //Coupon

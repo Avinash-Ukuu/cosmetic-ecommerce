@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\EmployeePayment;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Mail\OrderItemStatusMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -181,5 +182,18 @@ class OrderController extends Controller
         saveLogs($data);
 
         return back();
+    }
+
+    public function generateReceipt($orderId)
+    {
+        $order      =   Order::with('orderItems.product', 'customer')->findOrFail($orderId);
+
+        if ($order->payment_status !== 'paid') {
+            return redirect()->back()->with('error', 'Payment not completed for this order.');
+        }
+
+        $pdf = Pdf::loadView('cms.order.receipt', compact('order'));
+
+        return $pdf->download("Order_Receipt_{$order->order_number}.pdf");
     }
 }

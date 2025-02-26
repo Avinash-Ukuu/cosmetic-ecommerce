@@ -88,11 +88,15 @@
                     @endif
                     <hr>
                 </div>
-                {{-- <div class="container-fluid w-100">
-                    <a href="#" class="btn btn-primary float-right mt-4 ms-2"><i class="ti-printer me-1"></i>Print</a>
-                    <a href="#" class="btn btn-success float-right mt-4"><i class="ti-export me-1"></i>Send
-                        Invoice</a>
-                </div> --}}
+
+                <div class="container-fluid w-100 text-right">
+                    
+                        @if($order->payment_status == 'paid')
+                            <a href="{{ route('orderReceipt', $order->id) }}" class="btn btn-primary">
+                                <i class="ti-export me-1 mr-3"></i>Print Receipt
+                            </a>
+                        @endif
+                </div>
             </div>
         </div>
     </div>
