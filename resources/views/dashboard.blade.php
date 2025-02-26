@@ -169,7 +169,7 @@
                                     <td>{{ $order->customer->name ?? 'N/A' }}</td>
                                     <td>₹{{ number_format($order->total_amount, 2) }}</td>
                                     <td><label
-                                            class="badge badge-{{ $order->status == 'delivered' ? 'success' : 'warning' }}">{{ ucfirst($order->status) }}</label>
+                                            class="badge badge-{{ $order->status == 'completed' ? 'success' : 'warning' }}">{{ ucfirst($order->status) }}</label>
                                     </td>
                                     <td>{{ $order->order_created_at }}</td>
                                 </tr>
