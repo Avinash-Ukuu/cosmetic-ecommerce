@@ -237,22 +237,22 @@ DROP TABLE IF EXISTS `addresses`;
 CREATE TABLE `addresses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) DEFAULT NULL,
-  `address_line1` text DEFAULT NULL,
-  `address_line2` text DEFAULT NULL,
-  `city` varchar(255) DEFAULT NULL,
-  `state` varchar(255) DEFAULT NULL,
-  `zip_code` varchar(255) DEFAULT NULL,
-  `country` varchar(255) DEFAULT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `mobile_number` varchar(15) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `building_name` varchar(255) DEFAULT NULL,
+  `street_address` varchar(255) DEFAULT NULL,
+  `area` varchar(255) DEFAULT NULL,
+  `emirate` varchar(255) DEFAULT NULL,
+  `po_box` varchar(50) DEFAULT NULL,
+  `landmark` varchar(255) DEFAULT NULL,
+  `delivery_instructions` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `addresses` */
-
-insert  into `addresses`(`id`,`customer_id`,`address_line1`,`address_line2`,`city`,`state`,`zip_code`,`country`,`created_at`,`updated_at`) values 
-(1,1,'house number; 12, Street no. 4,','house number; 12, Street no. 4,','Jalandhar city','Punjab','144001','India','2024-09-04 09:00:05','2024-09-04 09:00:05'),
-(3,1,'test 12, street 6,','test 12, street 6,','Jalandhar city','Punjab','144001','India','2024-10-22 09:28:29','2024-09-20 11:20:19');
 
 /*Table structure for table `banners` */
 

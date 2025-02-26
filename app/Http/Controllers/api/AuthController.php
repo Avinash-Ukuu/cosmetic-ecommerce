@@ -241,10 +241,55 @@ class AuthController extends Controller
                 'emirate'           =>      $addressData['emirate'],
                 'po_box'            =>      $addressData['po_box'],
                 'landmark'          =>      $addressData['landmark'],
-                'delivery_instructions'           =>      $addressData['landmark'],
+                'delivery_instructions'           =>      $addressData['delivery_instructions'],
             ]);
         }
 
         return response()->json(['message' => 'Address stored'], 200);
+    }
+
+    public function updateAddress(Request $request)
+    {
+        $user = Auth::user();
+        if(empty($user))
+        {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        $validatedData      =   $request->validate([
+                                    'address_id'    => 'required|exists:addresses,id',
+                                    'full_name'     => 'required|string|max:255',
+                                    'mobile_number' => 'nullable|string|regex:/^\+971[0-9 ]{7,12}$/',
+                                    'email'         => 'required|email|max:255',
+                                    'building_name' => 'required|string|max:255',
+                                    'street_address'=> 'required|string|max:255', // Increased length to allow full address
+                                    'area'          => 'required|string|max:255',
+                                    'emirate'       => 'required|string',
+                                    'po_box'        => 'nullable|string|max:50', // Optional field for PO Box
+                                    'landmark'      => 'nullable|string|max:255', // Optional field for additional info
+                                    'delivery_instructions' => 'nullable|string|max:500' // Optional for additional delivery details
+                                ]);
+
+        $address            =   Address::where('id', $validatedData['address_id'])
+                                ->where('customer_id', $user->customer->id)
+                                ->first();
+
+        if (!$address) {
+            return response()->json(['message' => 'Address not found'], 404);
+        }
+
+        $address->update([
+            'full_name'                 =>      $validatedData['full_name'],
+            'mobile_number'             =>      $validatedData['mobile_number'],
+            'email'                     =>      $validatedData['email'],
+            'building_name'             =>      $validatedData['building_name'],
+            'street_address'            =>      $validatedData['street_address'],
+            'area'                      =>      $validatedData['area'],
+            'emirate'                   =>      $validatedData['emirate'],
+            'po_box'                    =>      $validatedData['po_box'],
+            'landmark'                  =>      $validatedData['landmark'],
+            'delivery_instructions'     =>      $validatedData['delivery_instructions'],
+        ]);
+
+        return response()->json(['message' => 'Address Updated'], 200);
     }
 }

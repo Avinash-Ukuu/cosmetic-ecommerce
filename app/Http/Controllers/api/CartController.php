@@ -59,7 +59,7 @@ class CartController extends Controller
     public function getCart()
     {
         $user       =   Auth::user();
-        $cartItems  =   Cart::where('customer_id', $user->customer->id)->with('product')->get();
+        $cartItems  =   Cart::where('customer_id', $user->customer->id)->with('product.productImages')->get();
 
         return response()->json([
             'message' => 'Cart items retrieved successfully',
