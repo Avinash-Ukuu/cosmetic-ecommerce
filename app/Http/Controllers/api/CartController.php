@@ -38,7 +38,7 @@ class CartController extends Controller
             $message = 'Product added to cart';
         }
 
-        return response()->json(['message' => $message, 'cart' => $cartItem], 200);
+        return response()->json(['message' => $message, 'cart' => $cartItem], 201);
     }
 
     public function removeFromCart(Request $request)
@@ -53,7 +53,7 @@ class CartController extends Controller
         }
         $cartItem->delete();
 
-        return response()->json(['message' => 'Product removed from cart'], 200);
+        return response()->json(['message' => 'Product removed from cart'], 204);
     }
 
     public function getCart()
