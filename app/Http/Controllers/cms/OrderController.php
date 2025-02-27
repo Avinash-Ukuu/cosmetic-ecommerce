@@ -186,7 +186,7 @@ class OrderController extends Controller
 
     public function generateReceipt($orderId)
     {
-        $order      =   Order::with('orderItems.product', 'customer','coupon')->findOrFail($orderId);
+        $order      =   Order::with('orderItems.product', 'customer','coupon','address')->findOrFail($orderId);
 
         if ($order->payment_status !== 'paid') {
             return redirect()->back()->with('error', 'Payment not completed for this order.');

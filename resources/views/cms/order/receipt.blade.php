@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
+    <link rel="stylesheet" href="{{ asset('assets/skydash/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
     <style>
         body { font-family: Arial, sans-serif; }
         .container { width: 80%; margin: auto; padding: 20px; }
@@ -35,8 +36,16 @@
 
             <div class="customer-details">
                 <strong>Bill to:</strong><br>
-                {{ $order->customer->name }}<br>
-                {{ $order->customer->email }}
+                Name: <b>{{ $order->address->full_name ?? 'N/A' }}</b><br>
+                Email: <b>{{ $order->address->email ?? 'N/A' }} </b><br>
+                Mobile Number: <b>{{ $order->address->mobile_number ?? 'N/A' }} </b><br>
+                Building Name: <b>{{ $order->address->building_name ?? 'N/A' }} </b><br>
+                Street Address:<b>{{ $order->address->street_address ?? 'N/A' }} </b><br>
+                Area: <b>{{ $order->address->area ?? 'N/A' }} </b><br>
+                Emirate: <b>{{ $order->address->emirate ?? 'N/A' }} </b><br>
+                PO Box: <b>{{ $order->address->po_box ?? 'N/A' }} </b><br>
+                Landmark: <b>{{ $order->address->landmark ?? 'N/A' }} </b><br>
+                Delivery Instructions: <b>{{ $order->address->delivery_instructions ?? 'N/A' }} </b><br>
             </div>
 
             <h3>AED{{ number_format($order->total_amount, 2) }} due {{ $order->created_at->addDays(7)->format('M d, Y') }}</h3>
