@@ -45,12 +45,6 @@ class OrderController extends Controller
                         return response()->json(['error' => 'Minimum purchase amount is required!'], 400);
                     }
 
-                    // Check usage limit
-                    $usedCount = Order::where('coupon_id', $coupon->id)->count();
-                    if ($usedCount >= $coupon->usage_limit) {
-                        return response()->json(['error' => 'Coupon usage limit exceeded!'], 400);
-                    }
-
                     // Calculate discount
                     if ($coupon->discount_type === 'fixed') {
                         $discountAmount = $coupon->discount;
@@ -94,7 +88,10 @@ class OrderController extends Controller
                     $product->update(['stock' => $product->stock - $cartItem->quantity]);
                 }
             }
-
+            // Reduce coupon usage limit if applied
+            if ($coupon) {
+                $coupon->decrement('usage_limit');
+            }
             // Clear cart after order placement
             Cart::where('customer_id', $user->customer->id)->delete();
 
