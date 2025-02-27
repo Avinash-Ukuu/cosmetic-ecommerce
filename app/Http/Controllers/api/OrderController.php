@@ -41,14 +41,26 @@ class OrderController extends Controller
                 if ($coupon) {
                     $couponId = $coupon->id;
 
-                    if ($coupon->discount_type === 'fixed') {
-                        $discountAmount = $coupon->discount_value;
-                    } elseif ($coupon->discount_type === 'percentage') {
-                        $discountAmount = ($totalAmount * $coupon->discount_value) / 100;
+                    if ($totalAmount < $coupon->minimum_purchase) {
+                        return response()->json(['error' => 'Minimum purchase amount is required!'], 400);
                     }
 
-                    // Ensure discount is not greater than the total amount
+                    // Check usage limit
+                    $usedCount = Order::where('coupon_id', $coupon->id)->count();
+                    if ($usedCount >= $coupon->usage_limit) {
+                        return response()->json(['error' => 'Coupon usage limit exceeded!'], 400);
+                    }
+
+                    // Calculate discount
+                    if ($coupon->discount_type === 'fixed') {
+                        $discountAmount = $coupon->discount;
+                    } elseif ($coupon->discount_type === 'percentage') {
+                        $discountAmount = ($totalAmount * $coupon->discount) / 100;
+                    }
+
+                    // Ensure discount is not greater than total amount
                     $discountAmount = min($discountAmount, $totalAmount);
+
                 } else {
                     return response()->json(['error' => 'Invalid or expired coupon code!'], 400);
                 }
@@ -84,7 +96,7 @@ class OrderController extends Controller
             }
 
             // Clear cart after order placement
-            Cart::where('customer_id', $user->id)->delete();
+            Cart::where('customer_id', $user->customer->id)->delete();
 
             DB::commit();
 
