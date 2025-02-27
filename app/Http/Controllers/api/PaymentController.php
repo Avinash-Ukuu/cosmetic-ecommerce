@@ -22,7 +22,7 @@ class PaymentController extends Controller
             'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
-                    'currency' => 'usd',
+                    'currency' => 'aed',
                     'product_data' => ['name' => 'Order #' . $order->order_number],
                     'unit_amount' => $order->total_amount * 100,
                 ],

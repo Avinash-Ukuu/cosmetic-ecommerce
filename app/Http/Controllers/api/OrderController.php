@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -27,13 +28,39 @@ class OrderController extends Controller
         DB::beginTransaction();
         try {
             // Calculate total amount
-            $totalAmount = $cartItems->sum(fn($item) => $item->product->sale_price * $item->quantity);
+            $totalAmount    = $cartItems->sum(fn($item) => $item->product->sale_price * $item->quantity);
 
+            $discountAmount = 0;
+            $couponId       = null;
+
+            if ($request->has('coupon_code')) {
+                $coupon     = Coupon::where('code', $request->coupon_code)
+                                ->where('expiry_date', '>=', now())
+                                ->first();
+
+                if ($coupon) {
+                    $couponId = $coupon->id;
+
+                    if ($coupon->discount_type === 'fixed') {
+                        $discountAmount = $coupon->discount_value;
+                    } elseif ($coupon->discount_type === 'percentage') {
+                        $discountAmount = ($totalAmount * $coupon->discount_value) / 100;
+                    }
+
+                    // Ensure discount is not greater than the total amount
+                    $discountAmount = min($discountAmount, $totalAmount);
+                } else {
+                    return response()->json(['error' => 'Invalid or expired coupon code!'], 400);
+                }
+            }
+
+            $finalAmount = $totalAmount - $discountAmount;
             // Create order
             $order = Order::create([
                 'user_id' => $user->id,
-                // 'order_number' => 'ORD-' . Str::random(10),
-                'total_amount' => $totalAmount,
+                'total_amount' => $finalAmount,
+                'discount_amount' => $discountAmount,
+                'coupon_id' => $couponId,
                 'status' => 'pending', // Default status
                 'address_id' => $request->address_id, // Address provided by the user
                 'payment_status' => 'unpaid',
@@ -66,5 +93,25 @@ class OrderController extends Controller
             DB::rollback();
             return response()->json(['error' => 'Something went wrong!'], 500);
         }
+    }
+
+    public function getOrder()
+    {
+        $user       =   Auth::user();
+
+        if (empty($user)) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $orders     =   Order::with(['orderItems.product.productImages'])
+                                ->where('user_id', $user->id)
+                                ->orderBy('order_created_at', 'desc')
+                                ->get();
+
+        return response()->json([
+                        'status' => true,
+                        'message' => 'Order history fetched successfully',
+                        'orders' => $orders
+                    ], 200);
     }
 }

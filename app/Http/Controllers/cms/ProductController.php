@@ -66,10 +66,10 @@ class ProductController extends Controller
                     return $data->category->name;
                 })
                 ->editColumn('sale_price', function ($data) {
-                    return '₹ ' . $data->sale_price;
+                    return 'AED ' . $data->sale_price;
                 })
                 ->editColumn('mrp_price', function ($data) {
-                    return !empty($data->mrp_price) ? '₹ ' . $data->mrp_price : 'N/A';
+                    return !empty($data->mrp_price) ? 'AED ' . $data->mrp_price : 'N/A';
                 })
                 ->editColumn('brand', function ($data) {
                     return  $data->brand->name ?? 'N/A';

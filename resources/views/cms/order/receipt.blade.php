@@ -14,6 +14,7 @@
         .details-table th, .details-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         .total-table { width: 100%; margin-top: 10px; }
         .total-table td { padding: 5px; text-align: right; }
+        .discount-text { color: red; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -22,7 +23,6 @@
         <div class="invoice-title">Invoice</div>
         <p><strong>Invoice Number:</strong> {{ $order->order_number }}</p>
         <p><strong>Date of Issue:</strong> {{ $order->created_at->format('M d, Y') }}</p>
-        {{-- <p><strong>Date Due:</strong> {{ $order->created_at->addDays(7)->format('M d, Y') }}</p> --}}
 
         <div class="row">
             <div class="company-details">
@@ -41,6 +41,7 @@
 
             <h3>AED{{ number_format($order->total_amount, 2) }} due {{ $order->created_at->addDays(7)->format('M d, Y') }}</h3>
         </div>
+
         <table class="details-table">
             <thead>
                 <tr>
@@ -63,10 +64,21 @@
         </table>
 
         <table class="total-table">
+            @php
+                $subtotal = $order->total_amount + ($order->discount_amount ?? 0);
+            @endphp
             <tr>
                 <td>Subtotal:</td>
-                <td>AED{{ number_format($order->total_amount, 2) }}</td>
+                <td>AED{{ number_format($subtotal, 2) }}</td>
             </tr>
+
+            @if($order->coupon)
+                <tr class="discount-text">
+                    <td>Coupon Discount ({{ $order->coupon->code }}):</td>
+                    <td>- AED{{ number_format($order->discount_amount, 2) }}</td>
+                </tr>
+            @endif
+
             <tr>
                 <td><strong>Total:</strong></td>
                 <td><strong>AED{{ number_format($order->total_amount, 2) }}</strong></td>

@@ -250,9 +250,12 @@ CREATE TABLE `addresses` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `addresses` */
+
+insert  into `addresses`(`id`,`customer_id`,`full_name`,`mobile_number`,`email`,`building_name`,`street_address`,`area`,`emirate`,`po_box`,`landmark`,`delivery_instructions`,`created_at`,`updated_at`) values 
+(1,3,'Test','4545454545','test@gmail.com','test building','12 street','Dubai','Dubai','12312','Mail Box','Test','2025-02-26 15:20:42',NULL);
 
 /*Table structure for table `banners` */
 
@@ -331,9 +334,12 @@ CREATE TABLE `carts` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `carts` */
+
+insert  into `carts`(`id`,`customer_id`,`product_id`,`quantity`,`created_at`,`updated_at`) values 
+(1,1,1,1,'2025-02-26 15:17:07',NULL);
 
 /*Table structure for table `categories` */
 
@@ -480,7 +486,6 @@ CREATE TABLE `coupons` (
   `expiry_date` date DEFAULT NULL,
   `usage_limit` int(11) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
-  `coupon_type` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -488,8 +493,8 @@ CREATE TABLE `coupons` (
 
 /*Data for the table `coupons` */
 
-insert  into `coupons`(`id`,`name`,`code`,`discount`,`discount_type`,`minimum_purchase`,`expiry_date`,`usage_limit`,`is_active`,`coupon_type`,`created_at`,`updated_at`) values 
-(1,'WELCOME 20%','WELCOME20',20.00,'percentage',200.00,'2024-12-21',10,1,'product','2024-12-18 11:53:23','2024-12-16 11:57:54');
+insert  into `coupons`(`id`,`name`,`code`,`discount`,`discount_type`,`minimum_purchase`,`expiry_date`,`usage_limit`,`is_active`,`created_at`,`updated_at`) values 
+(1,'WELCOME 20%','WELCOME20',20.00,'percentage',200.00,'2024-12-21',10,1,'2024-12-18 11:53:23','2024-12-16 11:57:54');
 
 /*Table structure for table `customers` */
 
@@ -579,9 +584,12 @@ CREATE TABLE `order_items` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `order_items` */
+
+insert  into `order_items`(`id`,`order_id`,`product_id`,`quantity`,`price`,`status`,`created_at`,`updated_at`) values 
+(1,1,1,1,1500.00,'pending','2025-02-26 15:21:58',NULL);
 
 /*Table structure for table `orders` */
 
@@ -594,14 +602,19 @@ CREATE TABLE `orders` (
   `total_amount` decimal(10,2) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `address_id` int(11) DEFAULT NULL,
+  `coupon_id` int(11) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL,
+  `discount_amount` decimal(10,2) DEFAULT NULL,
   `order_created_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `orders` */
+
+insert  into `orders`(`id`,`user_id`,`order_number`,`total_amount`,`status`,`address_id`,`coupon_id`,`payment_status`,`discount_amount`,`order_created_at`,`created_at`,`updated_at`) values 
+(1,3,'OTP-120091',1500.00,'completed',1,NULL,'paid',NULL,'2025-02-26 15:19:13','2025-02-26 16:20:53',NULL);
 
 /*Table structure for table `otps` */
 

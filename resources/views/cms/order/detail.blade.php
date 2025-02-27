@@ -80,17 +80,33 @@
                     </div>
                 </div>
                 <div class="container-fluid mt-5 w-100">
-                    {{-- <p class="text-right mb-2">Sub - Total amount: $12,348</p>  --}}
-                    {{-- <p class="text-right">vat (10%) : $138</p> --}}
-                    <h4 class="text-right mb-5">Total : {{ $order->total_amount }}</h4>
-                    @if($order->status == 'completed')
-                        <h4 class="text-right mb-5">Order Status : <label class="badge badge-outline-success">Order Delivered</label></h4>
+                    <hr>
+
+                    {{-- Subtotal Calculation --}}
+                    <h4 class="text-right mb-2">Subtotal: AED {{ number_format($order->total_amount + $order->discount_amount, 2) }}</h4>
+
+                    {{-- Coupon Discount Section --}}
+                    @if($order->coupon)
+                        <h5 class="text-right text-danger mb-2">
+                            Coupon Applied: {{ $order->coupon->code }} ( - AED {{ number_format($order->discount_amount, 2) }} )
+                        </h5>
                     @endif
+
+                    {{-- Final Total After Discount --}}
+                    <h4 class="text-right mb-5">Final Total: AED {{ number_format($order->total_amount, 2) }}</h4>
+
+                    {{-- Order Status --}}
+                    @if($order->status == 'completed')
+                        <h4 class="text-right mb-5">
+                            Order Status: <label class="badge badge-outline-success">Order Delivered</label>
+                        </h4>
+                    @endif
+
                     <hr>
                 </div>
 
                 <div class="container-fluid w-100 text-right">
-                    
+
                         @if($order->payment_status == 'paid')
                             <a href="{{ route('orderReceipt', $order->id) }}" class="btn btn-primary">
                                 <i class="ti-export me-1 mr-3"></i>Print Receipt

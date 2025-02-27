@@ -11,9 +11,9 @@ class CouponController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($type)
+    public function index()
     {
-        $coupons     =   Coupon::where('is_active',1)->where('usage_limit','>=',1)->where('coupon_type',$type)->get();
+        $coupons     =   Coupon::where('is_active',1)->where('usage_limit','>=',1)->get();
 
         return  response()->json($coupons,200);
     }

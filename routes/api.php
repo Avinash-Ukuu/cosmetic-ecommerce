@@ -74,10 +74,11 @@ Route::middleware('api.token')->group(function () {
     Route::post('/add-to-cart',             [CartController::class, 'addToCart']);
     Route::delete('/remove-from-cart',      [CartController::class, 'removeFromCart']);
     Route::get('/get-cart',                 [CartController::class, 'getCart']);
-    Route::get('/coupon-list/{type}',       [CouponController::class, 'index']);
+    Route::get('/coupon-list',              [CouponController::class, 'index']);
     Route::post('/submit-review',           [ReviewController::class, 'store']);
 
     Route::post('/place-order',             [OrderController::class, 'placeOrder']);
+    Route::get('/order',                    [OrderController::class, 'getOrder']);
 
     Route::post('/checkout',                [PaymentController::class, 'createCheckoutSession'])->name('checkout');
     Route::get('/payment/success/{order}',  [PaymentController::class, 'success'])->name('payment.success');

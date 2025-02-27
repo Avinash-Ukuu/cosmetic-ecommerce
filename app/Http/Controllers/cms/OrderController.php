@@ -82,7 +82,7 @@ class OrderController extends Controller
     {
         abort_if(!auth()->user()->hasRole('admin'), 403);
 
-        $data['order']      =       Order::with(['customer.customer', 'orderItems.product', 'payment', 'address'])->find($id);
+        $data['order']      =       Order::with(['customer.customer', 'orderItems.product', 'payment', 'address','coupon'])->find($id);
 
         if (empty($data['order'])) {
             Session::flash('error', 'Data Not Found');
@@ -186,7 +186,7 @@ class OrderController extends Controller
 
     public function generateReceipt($orderId)
     {
-        $order      =   Order::with('orderItems.product', 'customer')->findOrFail($orderId);
+        $order      =   Order::with('orderItems.product', 'customer','coupon')->findOrFail($orderId);
 
         if ($order->payment_status !== 'paid') {
             return redirect()->back()->with('error', 'Payment not completed for this order.');

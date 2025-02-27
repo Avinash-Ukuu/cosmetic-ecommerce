@@ -45,7 +45,7 @@
                 <div class="card-body row">
                     <div class="col-6">
                         <p class="mb-4">Total Revenue</p>
-                        <p class="fs-30 mb-2">₹{{ number_format($totalRevenue, 2) }}</p>
+                        <p class="fs-30 mb-2">AED {{ number_format($totalRevenue, 2) }}</p>
                     </div>
                     <div class="col-6 text-right">
                         <i class="fa fa-money menu-icon fa-5x"></i>
@@ -167,7 +167,7 @@
                                 <tr>
                                     <td>{{ $order->order_number }}</td>
                                     <td>{{ $order->customer->name ?? 'N/A' }}</td>
-                                    <td>₹{{ number_format($order->total_amount, 2) }}</td>
+                                    <td>AED {{ number_format($order->total_amount, 2) }}</td>
                                     <td><label
                                             class="badge badge-{{ $order->status == 'completed' ? 'success' : 'warning' }}">{{ ucfirst($order->status) }}</label>
                                     </td>
@@ -194,7 +194,7 @@
             data: {
                 labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                 datasets: [{
-                    label: "Monthly Sales (₹)",
+                    label: "Monthly Sales (AED)",
                     data: salesData,
                     backgroundColor: "rgba(54, 162, 235, 0.6)",
                     borderColor: "rgba(54, 162, 235, 1)",

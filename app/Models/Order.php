@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Coupon;
 use App\Models\Address;
 use App\Models\Payment;
 use App\Models\OrderItem;
@@ -61,5 +62,10 @@ class Order extends Model
     public function address():BelongsTo
     {
         return $this->belongsTo(Address::class);
+    }
+
+    public function coupon():BelongsTo
+    {
+        return $this->belongsTo(Coupon::class);
     }
 }
