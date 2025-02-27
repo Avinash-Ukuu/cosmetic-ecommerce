@@ -71,17 +71,9 @@
                 </div>
 
                 <div class="row">
+
                     <div class="col-md-3 form-group">
-                        {!! Form::label('coupon_type', 'Coupon Type') !!}
-                        {!! Form::select('coupon_type',['product'=>'Product','course'=>'Course'] ,null, [
-                            'class' => 'select2 form-control coupon_type',
-                            'placeholder' => 'Select Coupon Type',
-                            'data-placeholder' => 'Select Coupon Type',
-                            'required',
-                        ]) !!}
-                    </div>
-                    <div class="col-md-3 form-group">
-                        {!! Form::label('minimum_purchase', 'Minimum Purchase ( Optional )') !!}
+                        {!! Form::label('minimum_purchase', 'Minimum Purchase ') !!}
                         {!! Form::number('minimum_purchase', null, [
                                 'class' => 'form-control minimum_purchase',
                                 'placeholder' => 'Enter Minimum Purchase','min'=>'0'

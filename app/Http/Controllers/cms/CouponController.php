@@ -45,7 +45,6 @@ class CouponController extends Controller
         $coupon->minimum_purchase   =       $request->minimum_purchase;
         $coupon->expiry_date        =       $request->expiry_date;
         $coupon->usage_limit        =       $request->usage_limit;
-        $coupon->coupon_type        =       $request->coupon_type;
         $coupon->is_active          =       1;
         $coupon->save();
 
@@ -103,7 +102,6 @@ class CouponController extends Controller
         $coupon->minimum_purchase   =       $request->minimum_purchase;
         $coupon->expiry_date        =       $request->expiry_date;
         $coupon->usage_limit        =       $request->usage_limit;
-        $coupon->coupon_type        =       $request->coupon_type;
         $coupon->update();
 
         $data['message']            =       auth()->user()->name . " has updated the $coupon->name coupon";
