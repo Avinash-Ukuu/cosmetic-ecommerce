@@ -30,11 +30,11 @@ class WishlistController extends Controller
         if ($isInWishlist) {
             $user->customer->wishlistProducts()->detach($productId);
 
-            return response()->json(['message' => 'Product removed from wishlist'], 200);
+            return response()->json(['message' => 'Product removed from wishlist'], 204);
         } else {
             $user->customer->wishlistProducts()->attach($productId);
 
-            return response()->json(['message' => 'Product added to wishlist'], 200);
+            return response()->json(['message' => 'Product added to wishlist'], 201);
         }
     }
 
