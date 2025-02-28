@@ -115,7 +115,7 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        $user->load(['customer', 'roles']);
+        $user->load(['customer.addresses','customer.wishlistProducts', 'customer.cartItems','roles']);
 
         // Check if the user has an associated customer profile
         if (!$user->customer) {
