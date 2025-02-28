@@ -45,7 +45,7 @@
                                     </td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->total_sold }}</td>
-                                    <td>₹{{ number_format($product->sale_price, 2) }}</td>
+                                    <td>AED {{ number_format($product->sale_price, 2) }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
