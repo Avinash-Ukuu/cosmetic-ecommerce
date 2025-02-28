@@ -42,9 +42,6 @@
                                     Code
                                 </th>
                                 <th>
-                                    Coupon Type
-                                </th>
-                                <th>
                                     Discount
                                 </th>
                                 <th>

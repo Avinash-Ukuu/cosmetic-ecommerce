@@ -28,7 +28,6 @@ class CouponRequest extends FormRequest
             'code'          => "required|string|unique:coupons,code,$id,id",
             'discount'      => 'required|numeric|min:0',
             'discount_type' => 'required',
-            'coupon_type'   => 'required',
             'minimum_purchase'   => 'required',
             'expiry_date'   => 'required|date|after_or_equal:today',
         ];

@@ -19,7 +19,7 @@ class OrderController extends Controller
         $user       = Auth::user();
 
         // Fetch cart items for the user
-        $cartItems = Cart::where('customer_id', $user->id)->get();
+        $cartItems = Cart::where('customer_id', $user->customer->id)->get();
 
         if ($cartItems->isEmpty()) {
             return response()->json(['error' => 'Your cart is empty!'], 400);
