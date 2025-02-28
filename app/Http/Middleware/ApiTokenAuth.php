@@ -23,7 +23,7 @@ class ApiTokenAuth
             return response()->json(['message' => 'Token missing'], 401);
         }
 
-        $user = User::with(['customer.addresses', 'roles'])->where('api_token', $token)->first();
+        $user = User::with(['customer.addresses', 'roles','orders'])->where('api_token', $token)->first();
 
         if (!$user) {
             return response()->json(['message' => 'Unauthorized'], 401);

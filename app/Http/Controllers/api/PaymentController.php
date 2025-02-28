@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use Stripe\Stripe;
+use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Stripe\Checkout\Session;
@@ -17,6 +18,7 @@ class PaymentController extends Controller
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $order = Order::findOrFail($request->order_id);
+        $token  =   $request->token;
 
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -29,15 +31,25 @@ class PaymentController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => route('payment.success', ['order' => $order->id]),
-            'cancel_url' => route('payment.cancel', ['order' => $order->id]),
+            'success_url' => route('payment.success', ['order' => $order->id,'token'=>$token]),
+            'cancel_url' => route('payment.cancel', ['order' => $order->id,'token'=>$token]),
         ]);
 
-        return response()->json(['url' => $session->url]);
+        return response()->json(['url' => $session->url,'token'=>$token]);
     }
 
-    public function success($orderId)
+    public function success($orderId,$token)
     {
+        if (empty($token)) {
+            return response()->json(['message' => 'Token missing'], 401);
+        }
+
+        $user = User::where('api_token', $token)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
         $order = Order::findOrFail($orderId);
         $order->update(['payment_status' => 'paid']);
         Mail::to([$order->customer->email,'glamifyy.ae@gmail.com'])->send(new OrderStatusMail($order, 'paid'));
@@ -45,8 +57,18 @@ class PaymentController extends Controller
         return response()->json(['message' => 'Payment successful!'], 200);
     }
 
-    public function cancel($orderId)
+    public function cancel($orderId,$token)
     {
+        if (empty($token)) {
+            return response()->json(['message' => 'Token missing'], 401);
+        }
+
+        $user = User::where('api_token', $token)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        
         $order = Order::findOrFail($orderId);
         $order->update(['payment_status' => 'cancel']);
         Mail::to([$order->customer->email,'glamifyy.ae@gmail.com'])->send(new OrderStatusMail($order, 'canceled'));

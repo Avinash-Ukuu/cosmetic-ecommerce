@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Role;
+use App\Models\Order;
 use App\Models\Module;
 use App\Models\Review;
 use App\Models\Product;
@@ -152,5 +153,10 @@ class User extends Authenticatable
     public function reviews():HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function orders():HasMany
+    {
+        return $this->hasMany(Order::class);
     }
 }
