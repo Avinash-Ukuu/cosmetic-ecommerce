@@ -99,7 +99,8 @@ class AuthController extends Controller
             Mail::to($user->email)->send(new CustomerRegisterMail($user));
             // Delete OTP after successful verification
             $otpEntry->delete();
-
+            $user->load(['customer.addresses','customer.wishlistProducts', 'customer.cartItems','roles','orders']);
+            
             return response()->json(['token' => $token, 'user' => $user], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -115,7 +116,7 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        $user->load(['customer.addresses','customer.wishlistProducts', 'customer.cartItems','roles']);
+        $user->load(['customer.addresses','customer.wishlistProducts', 'customer.cartItems','roles','orders']);
 
         // Check if the user has an associated customer profile
         if (!$user->customer) {
