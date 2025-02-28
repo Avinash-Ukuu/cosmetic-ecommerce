@@ -31,6 +31,7 @@ class OrderController extends Controller
             $totalAmount    = $cartItems->sum(fn($item) => $item->product->sale_price * $item->quantity);
 
             $discountAmount = 0;
+            $coupon         = null;
             $couponId       = null;
 
             if ($request->has('coupon_code')) {
@@ -62,25 +63,25 @@ class OrderController extends Controller
 
             $finalAmount = $totalAmount - $discountAmount;
             // Create order
-            $order = Order::create([
-                'user_id' => $user->id,
-                'total_amount' => $finalAmount,
-                'discount_amount' => $discountAmount,
-                'coupon_id' => $couponId,
-                'status' => 'pending', // Default status
-                'address_id' => $request->address_id, // Address provided by the user
-                'payment_status' => 'unpaid',
-                'order_created_at' => now()
-            ]);
-
+            $order                  =       new Order();
+            $order->user_id         =       $user->id;
+            $order->total_amount    =       $finalAmount;
+            $order->discount_amount =       $discountAmount;
+            $order->coupon_id       =       $couponId;
+            $order->status          =       'pending';
+            $order->address_id      =       $request->address_id;
+            $order->payment_status  =       'unpaid';
+            $order->order_created_at  =     now();
+            $order->save();
             // Insert order items
             foreach ($cartItems as $cartItem) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $cartItem->product_id,
-                    'quantity' => $cartItem->quantity,
-                    'price' => $cartItem->product->sale_price
-                ]);
+
+                $orderItem              =       new OrderItem();
+                $orderItem->order_id    =       $order->id;
+                $orderItem->product_id  =       $cartItem->product_id;
+                $orderItem->quantity    =       $cartItem->quantity;
+                $orderItem->price       =       $cartItem->product->sale_price;
+                $orderItem->save();
 
                 // Reduce stock
                 $product = Product::find($cartItem->product_id);
@@ -100,7 +101,7 @@ class OrderController extends Controller
             return response()->json(['message' => 'Order placed successfully!', 'order_id' => $order->id], 200);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['error' => 'Something went wrong!'], 500);
+            return response()->json(['error' => 'Something went wrong!', 'message' => $e->getMessage()], 500);
         }
     }
 
