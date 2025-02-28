@@ -85,7 +85,7 @@ class OrderController extends Controller
                 // Reduce stock
                 $product = Product::find($cartItem->product_id);
                 if ($product) {
-                    $product->update(['stock' => $product->stock - $cartItem->quantity]);
+                    $product->update(['quantity' => $product->quantity - $cartItem->quantity]);
                 }
             }
             // Reduce coupon usage limit if applied

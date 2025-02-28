@@ -55,6 +55,8 @@ Route::resource('blog',                     BlogController::class);
 //Product
 Route::resource('product',                  ProductController::class);
 Route::get('low-product',                   [ProductController::class,'lowProduct'])->name('lowProduct');
+Route::get('top-selling-products',          [ProductController::class,'topSellingProducts'])->name('topSellingProducts');
+Route::get('top-area-buy-products',         [ProductController::class,'topAreaBuyProducts'])->name('topAreaBuyProducts');
 
 //Customer
 Route::resource('customer',                 CustomerController::class);

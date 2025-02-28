@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\cms;
 
+use DB;
 use Carbon\Carbon;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use App\Models\ProductColor;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\ProductRequest;
-use App\Models\ProductColor;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -342,5 +343,45 @@ class ProductController extends Controller
         }
 
         return view('cms.product.lowProduct');
+    }
+
+    public function topSellingProducts()
+    {
+        $data['topProducts']    =       \DB::table('order_items')
+                                            ->select(
+                                                'products.id',
+                                                'products.name',
+                                                'products.sale_price',
+                                                \DB::raw('SUM(order_items.quantity) as total_sold'),
+                                                \DB::raw('(SELECT url FROM product_images WHERE product_images.product_id = products.id LIMIT 1) as product_image')
+                                            )
+                                            ->join('products', 'order_items.product_id', '=', 'products.id')
+                                            ->groupBy('products.id', 'products.name', 'products.sale_price')
+                                            ->orderByDesc('total_sold')
+                                            ->limit(10)
+                                            ->get();
+
+
+        return view('cms.product.topProducts',$data);
+    }
+
+    public function topAreaBuyProducts()
+    {
+        $data['topAreas']       =       \DB::table('order_items')
+                                            ->join('orders', 'order_items.order_id', '=', 'orders.id')
+                                            ->join('addresses', 'orders.address_id', '=', 'addresses.id')
+                                            ->select(
+                                                'addresses.area',
+                                                \DB::raw('COUNT(order_items.id) as total_orders'),
+                                                \DB::raw('SUM(order_items.quantity) as total_sold')
+                                            )
+                                            ->groupBy('addresses.area')
+                                            ->orderByDesc('total_sold')
+                                            ->limit(10)
+                                            ->get();
+
+
+
+        return view('cms.product.topArea',$data);
     }
 }

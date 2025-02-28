@@ -41,7 +41,7 @@
 
             <li class="nav-item @if(Route::currentRouteName() == 'customer.index') active @endif">
                 <a class="nav-link" href="{{ route('customer.index') }}">
-                    <i class="icon-tag menu-icon"></i>
+                    <i class="icon-head menu-icon"></i>
                     <span class="menu-title">Customer</span>
                 </a>
             </li>
@@ -75,6 +75,12 @@
                         <!-- Low Stock -->
                         <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'lowProduct') active @endif"
                                 href="{{ route('lowProduct') }}">Low Stock</a></li>
+                        <!-- Top Products -->
+                        <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'topSellingProducts') active @endif"
+                                href="{{ route('topSellingProducts') }}">Top Selling Products</a></li>
+                        <!-- Top Area -->
+                        <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'topAreaBuyProducts') active @endif"
+                                href="{{ route('topAreaBuyProducts') }}">Area Buy Products</a></li>
 
                     </ul>
                 </div>
