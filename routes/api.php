@@ -7,14 +7,15 @@ use App\Http\Controllers\api\BlogController;
 use App\Http\Controllers\api\CartController;
 use App\Http\Controllers\api\HomeController;
 use App\Http\Controllers\api\BrandController;
+use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\api\CouponController;
 use App\Http\Controllers\api\ReviewController;
 use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\LocationController;
 use App\Http\Controllers\api\WishlistController;
 use App\Http\Controllers\api\ForgotPasswordController;
-use App\Http\Controllers\api\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,10 @@ Route::get('blog/{id}',                     [BlogController::class,'show']);
 
 //Home page data
 Route::get('home',                          [HomeController::class,'index']);
+
+Route::get('/countries',                    [LocationController::class, 'getCountries']);
+Route::get('/cities/{country_id}',          [LocationController::class, 'getCities']);
+Route::get('/shipping-options',             [LocationController::class, 'getShippingOptions']);
 
 // Protected routes
 Route::middleware('api.token')->group(function () {

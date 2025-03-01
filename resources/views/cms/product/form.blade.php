@@ -249,18 +249,9 @@
             }
             $('.name').on('input', function() {
                 var inputValue = $(this).val();
-                var specialCharacter = "!@#\\$%\^&*_\\+=\\[\\]{};:\"<>?\\|`~";
                 var emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27FF]/;
-                var hasSpecialCharacter = false;
 
-                for (var i = 0; i < specialCharacter.length; i++) {
-                    if (inputValue.includes(specialCharacter[i])) {
-                        hasSpecialCharacter = true;
-                        break;
-                    }
-                }
-
-                if (hasSpecialCharacter || emojiRegex.test(inputValue)) {
+                if (emojiRegex.test(inputValue)) {
                     $('#submit').prop('disabled', true);
                 } else {
                     $('#submit').prop('disabled', false);

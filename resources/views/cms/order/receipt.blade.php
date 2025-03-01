@@ -28,8 +28,6 @@
         <div class="row">
             <div class="company-details">
                 <strong>Glamify</strong><br>
-                Alnawahy-st<br>
-                33<br>
                 United Arab Emirates<br>
                 +971 56 169 4415
             </div>

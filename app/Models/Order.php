@@ -33,7 +33,12 @@ class Order extends Model
     public static function generateOrderNumber()
     {
         $latestOrder    = self::latest('id')->first();
-        $latestId       = $latestOrder ? intval(substr($latestOrder->order_number, 2)) : 1000;
+        if ($latestOrder && preg_match('/COS-(\d+)/', $latestOrder->order_number, $matches)) {
+            $latestId = intval($matches[1]);
+        } else {
+            $latestId = 1000;
+        }
+
         return 'COS-' . ($latestId + 1);
     }
 
