@@ -13,8 +13,23 @@ class Address extends Model
 
     protected $guarded  =   ['id'];
 
-    public function customer():BelongsTo
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function shippingOption(): BelongsTo
+    {
+        return $this->belongsTo(ShippingOption::class);
     }
 }

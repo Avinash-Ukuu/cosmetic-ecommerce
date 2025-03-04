@@ -71,6 +71,9 @@ class OrderController extends Controller
             $order->status          =       'pending';
             $order->address_id      =       $request->address_id;
             $order->payment_status  =       'unpaid';
+            $order->country_id            =       $request->country_id;
+            $order->city_id               =       $request->city_id;
+            $order->shipping_option_id    =       $request->shipping_option_id;
             $order->order_created_at  =     now();
             $order->save();
             // Insert order items

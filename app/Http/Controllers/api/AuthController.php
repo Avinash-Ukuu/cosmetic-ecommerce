@@ -100,7 +100,7 @@ class AuthController extends Controller
             // Delete OTP after successful verification
             $otpEntry->delete();
             $user->load(['customer.addresses','customer.wishlistProducts', 'customer.cartItems','roles','orders']);
-            
+
             return response()->json(['token' => $token, 'user' => $user], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -214,6 +214,7 @@ class AuthController extends Controller
         }
 
         $request->validate([
+                    'country_id'    => 'required',
                     'full_name'     => 'required|string|max:255',
                     'mobile_number' => 'nullable|string',
                     'email'         => 'required|email|max:255',
@@ -239,6 +240,9 @@ class AuthController extends Controller
         $address->po_box                =       $request->po_box;
         $address->landmark              =       $request->landmark;
         $address->delivery_instructions =       $request->delivery_instructions;
+        $address->country_id            =       $request->country_id;
+        $address->city_id               =       $request->city_id;
+        $address->shipping_option_id    =       $request->shipping_option_id;
         $address->save();
 
         return response()->json($address, 200);
@@ -284,6 +288,9 @@ class AuthController extends Controller
         $address->po_box                =       $request->po_box;
         $address->landmark              =       $request->landmark;
         $address->delivery_instructions =       $request->delivery_instructions;
+        $address->country_id            =       $request->country_id;
+        $address->city_id               =       $request->city_id;
+        $address->shipping_option_id    =       $request->shipping_option_id;
         $address->update();
 
         return response()->json($address, 200);
