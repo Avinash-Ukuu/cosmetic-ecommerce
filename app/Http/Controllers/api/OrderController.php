@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\api;
 
 use App\Models\Cart;
+use App\Models\City;
 use App\Models\Order;
 use App\Models\Coupon;
+use App\Models\Country;
 use App\Models\Product;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use App\Models\ShippingOption;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +64,39 @@ class OrderController extends Controller
                 }
             }
 
-            $finalAmount = $totalAmount - $discountAmount;
+            $shippingFee = 0;
+
+            $uaeCities          = ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Umm Al Quwain', 'Ras Al Khaimah', 'Fujairah'];
+            $specialCountries   = ['Egypt', 'Jordan', 'Kuwait', 'Lebanon', 'Oman', 'Qatar', 'Saudi Arabia', 'Turkey', 'Bahrain'];
+
+            // Fetch country
+            $country = Country::find($request->country_id);
+            if (!$country) {
+                return response()->json(['error' => 'Invalid country selected!'], 400);
+            }
+
+            if (in_array($country->name, $specialCountries)) {
+                $shippingFee = 55.00;
+            } elseif ($country->name === 'United Arab Emirates') {
+                $city = City::find($request->city_id);
+                if (!$city || !in_array($city->name, $uaeCities)) {
+                    return response()->json(['error' => 'Invalid city selected!'], 400);
+                }
+
+                // Get shipping option fee
+                $shippingOption = ShippingOption::find($request->shipping_option_id);
+                if (!$shippingOption) {
+                    return response()->json(['error' => 'Invalid shipping option selected!'], 400);
+                }
+
+                $shippingFee = $shippingOption->price;
+            } else {
+                return response()->json(['error' => 'Shipping is not available for the selected country!'], 400);
+            }
+
+            // Calculate final amount (including shipping fee)
+            $finalAmount = ($totalAmount - $discountAmount) + $shippingFee;
+
             // Create order
             $order                  =       new Order();
             $order->user_id         =       $user->id;
@@ -74,6 +109,7 @@ class OrderController extends Controller
             $order->country_id            =       $request->country_id;
             $order->city_id               =       $request->city_id;
             $order->shipping_option_id    =       $request->shipping_option_id;
+            $order->shipping_fee          = $shippingFee;
             $order->order_created_at  =     now();
             $order->save();
             // Insert order items

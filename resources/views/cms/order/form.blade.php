@@ -35,6 +35,9 @@
                     <div class="col-lg-3 pr-0">
                         <p class="mt-5 mb-2"><b>Shipping Address</b></p>
                         <p>
+                            {{ $object->country->name ?? 'N/A'}},
+                            {{ $object->city->name ?? 'N/A'}},
+                            {{ $object->shippingOption->name ?? 'N/A'}}<br>
                             {{ $object->address->full_name ?? 'N/A'}}<br> {{ $object->address->mobile_number ?? 'N/A'}}<br>
                             {{ $object->address->email ?? 'N/A'}}, {{ $object->address->building_name ?? 'N/A'}}, {{ $object->address->street_address ?? 'N/A' }},
                             {{ $object->address->area ?? 'N/A' }}, {{ $object->address->emirate ?? 'N/A' }}, {{ $object->address->po_box ?? 'N/A' }}, {{ $object->address->landmark ?? 'N/A' }},

@@ -78,6 +78,10 @@
                 <td>Subtotal:</td>
                 <td>AED{{ number_format($subtotal, 2) }}</td>
             </tr>
+            <tr>
+                <td>Shipping Fees:</td>
+                <td>AED {{ $order->shipping_fee ?? 'N/A' }}</td>
+            </tr>
 
             @if($order->coupon)
                 <tr class="discount-text">

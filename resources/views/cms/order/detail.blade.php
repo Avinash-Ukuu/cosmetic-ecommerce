@@ -35,6 +35,9 @@
                     <div class="col-lg-3 pr-0">
                         <p class="mt-5 mb-2"><b>Shipping Address</b></p>
                         <p>
+                            {{ $order->country->name ?? 'N/A'}},
+                            {{ $order->city->name ?? 'N/A'}},
+                            {{ $order->shippingOption->name ?? 'N/A'}}<br>
                             {{ $order->address->full_name ?? 'N/A'}}<br> {{ $order->address->mobile_number ?? 'N/A'}}<br>
                             {{ $order->address->email ?? 'N/A'}}, {{ $order->address->building_name ?? 'N/A'}}, {{ $order->address->street_address ?? 'N/A' }},
                             {{ $order->address->area ?? 'N/A' }}, {{ $order->address->emirate ?? 'N/A' }}, {{ $order->address->po_box ?? 'N/A' }}, {{ $order->address->landmark ?? 'N/A' }},
@@ -82,6 +85,7 @@
                 <div class="container-fluid mt-5 w-100">
                     <hr>
 
+                    <h4 class="text-right mb-2">Shipping fees: AED {{ $order->shipping_fee ?? "N/A" }}</h4>
                     {{-- Subtotal Calculation --}}
                     <h4 class="text-right mb-2">Subtotal: AED {{ number_format($order->total_amount + $order->discount_amount, 2) }}</h4>
 

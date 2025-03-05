@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\City;
 use App\Models\User;
 use App\Models\Coupon;
 use App\Models\Address;
+use App\Models\Country;
 use App\Models\Payment;
 use App\Models\OrderItem;
+use App\Models\ShippingOption;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -72,5 +75,20 @@ class Order extends Model
     public function coupon():BelongsTo
     {
         return $this->belongsTo(Coupon::class);
+    }
+
+    public function country():BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function city():BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function shippingOption():BelongsTo
+    {
+        return $this->belongsTo(ShippingOption::class);
     }
 }

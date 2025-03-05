@@ -81,7 +81,7 @@ class OrderController extends Controller
     {
         abort_if(!auth()->user()->hasRole('admin'), 403);
 
-        $data['order']      =       Order::with(['customer.customer', 'orderItems.product', 'payment', 'address','coupon'])->find($id);
+        $data['order']      =       Order::with(['customer.customer', 'orderItems.product', 'payment', 'address','coupon','country','city','shippingOption'])->find($id);
 
         if (empty($data['order'])) {
             Session::flash('error', 'Data Not Found');
@@ -100,7 +100,7 @@ class OrderController extends Controller
         $data['object']     =   Order::with([
                 'customer',
                 'orderItems.product',
-                'payment'
+                'payment','country','city','shippingOption'
             ])->where('id', $id)->first();
 
 
