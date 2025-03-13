@@ -16,6 +16,10 @@ use App\Http\Controllers\cms\CustomerController;
 use App\Http\Controllers\cms\DashboardController;
 use App\Http\Controllers\cms\PermissionController;
 use App\Http\Controllers\cms\ActivityLogsController;
+use App\Http\Controllers\cms\ImageGalleryController;
+use App\Http\Controllers\cms\MiddleSectionController;
+use App\Http\Controllers\cms\ProductBundleController;
+use App\Http\Controllers\cms\TestimonialController;
 
 //dashboard
 Route::get('/dashboard',                    [DashboardController::class,'dashboard'])->name('dashboard');
@@ -73,6 +77,18 @@ Route::resource('coupon',                   CouponController::class);
 
 //Banner
 Route::resource('banner',                   BannerController::class);
+
+//MiddleSection
+Route::resource('middle-section',           MiddleSectionController::class);
+
+//Image Gallery
+Route::resource('image-gallery',            ImageGalleryController::class);
+
+//Testimonial
+Route::resource('testimonial',              TestimonialController::class);
+
+//Bundle
+Route::resource('bundle',                   ProductBundleController::class);
 
 //Common routes
 

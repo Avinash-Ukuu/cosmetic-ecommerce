@@ -11,11 +11,13 @@ use App\Models\Customer;
 use App\Models\OrderItem;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
+use App\Models\ProductBundle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -65,4 +67,9 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function bundles():BelongsToMany
+{
+    return $this->belongsToMany(ProductBundle::class, 'bundle_product');
+}
 }

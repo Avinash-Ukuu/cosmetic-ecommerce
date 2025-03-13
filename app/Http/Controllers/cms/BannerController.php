@@ -45,7 +45,14 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'navbar'            => 'required|string|max:255',
+            'title'             => 'required|string|max:255',
+            'description'       => 'required'
+        ]);
+
         $banner                     =       new Banner();
+        $banner->navbar             =       $request->navbar;
         $banner->title              =       $request->title;
         $banner->description        =       $request->description;
 
@@ -87,12 +94,19 @@ class BannerController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'navbar'            => 'required|string|max:255',
+            'title'             => 'required|string|max:255',
+            'description'       => 'required'
+        ]);
+
         $banner                     =       Banner::find($id);
         if(empty($banner))
         {
-            Session::flash('Data not found');
+            Session::flash("error",'Data not found');
             return back();
         }
+        $banner->navbar             =       $request->navbar;
         $banner->title              =       $request->title;
         $banner->description        =       $request->description;
 

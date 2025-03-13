@@ -221,7 +221,7 @@ class AuthController extends Controller
                     'building_name' => 'required|string|max:255',
                     'street_address'=> 'required|string|max:255', // Increased length to allow full address
                     'area'          => 'required|string|max:255',
-                    'emirate'       => 'required|string',
+                    // 'emirate'       => 'required|string',
                     'po_box'        => 'nullable|string|max:50', // Optional field for PO Box
                     'landmark'      => 'nullable|string|max:255', // Optional field for additional info
                     'delivery_instructions' => 'nullable|string|max:500' // Optional for additional delivery details
@@ -263,7 +263,7 @@ class AuthController extends Controller
                 'building_name' => 'required|string|max:255',
                 'street_address'=> 'required|string|max:255', // Increased length to allow full address
                 'area'          => 'required|string|max:255',
-                'emirate'       => 'required|string',
+                // 'emirate'       => 'required|string',
                 'po_box'        => 'nullable|string|max:50', // Optional field for PO Box
                 'landmark'      => 'nullable|string|max:255', // Optional field for additional info
                 'delivery_instructions' => 'nullable|string|max:500' // Optional for additional delivery details
@@ -304,7 +304,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        $addresses      =       $user->customer->addresses;
+        $addresses      =       $user->customer->addresses()->with('shippingOption')->get();
 
         return  response()->json($addresses,200);
 

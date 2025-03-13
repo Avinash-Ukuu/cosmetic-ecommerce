@@ -59,18 +59,22 @@
         <!-- Inventory -->
 
         @canany(['create','view','update'], new App\Models\Product())
-            <li class="nav-item @if (in_array(Route::currentRouteName(), ['product.index', 'lowProduct'])) active @endif">
-                <a class="nav-link @if (in_array(Route::currentRouteName(), ['product.index', 'lowProduct'])) collapsed @endif" data-toggle="collapse"
+            <li class="nav-item @if (in_array(Route::currentRouteName(), ['product.index', 'lowProduct','bundle.index','topSellingProducts','topAreaBuyProducts'])) active @endif">
+                <a class="nav-link @if (in_array(Route::currentRouteName(), ['product.index', 'lowProduct','bundle.index','topSellingProducts','topAreaBuyProducts'])) collapsed @endif" data-toggle="collapse"
                     href="#inventory-management" aria-expanded="false" aria-controls="inventory-management">
                     <i class="icon-box menu-icon"></i>
                     <span class="menu-title">Inventory &nbsp;</span>
                     <i class="menu-arrow"></i>
                 </a>
-                <div class="collapse @if (in_array(Route::currentRouteName(), ['product.index', 'lowProduct.index'])) show @endif" id="inventory-management">
+                <div class="collapse @if (in_array(Route::currentRouteName(), ['product.index', 'lowProduct','bundle.index','topSellingProducts','topAreaBuyProducts'])) show @endif" id="inventory-management">
                     <ul class="nav flex-column sub-menu">
                         <!-- Product -->
                         <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'product.index') active @endif"
                                 href="{{ route('product.index') }}">Product</a></li>
+
+                        <!-- Product -->
+                        <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'bundle.index') active @endif"
+                                href="{{ route('bundle.index') }}">Product Bundle</a></li>
 
                         <!-- Low Stock -->
                         <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'lowProduct') active @endif"
@@ -113,11 +117,31 @@
         @can('admin',auth()->user())
 
             <!-- Banner -->
-            <li class="nav-item @if(Route::currentRouteName() == 'banner.index') active @endif">
-                <a class="nav-link" href="{{ route('banner.index') }}">
-                    <i class="icon-image menu-icon"></i>
-                    <span class="menu-title">Banner</span>
+            <li class="nav-item @if (in_array(Route::currentRouteName(), ['banner.index','middle-section.index','image-gallery.index','testimonial.index'])) active @endif">
+                <a class="nav-link @if (in_array(Route::currentRouteName(), ['banner.index','middle-section.index','image-gallery.index','testimonial.index'])) collapsed @endif" data-toggle="collapse"
+                    href="#home-management" aria-expanded="false" aria-controls="home-management">
+                    <i class=" icon-image menu-icon"></i>
+                    <span class="menu-title">Dynamic Content &nbsp;</span>
+                    <i class="menu-arrow"></i>
                 </a>
+                <div class="collapse @if (in_array(Route::currentRouteName(), ['banner.index','middle-section.index','image-gallery.index','testimonial.index'])) show @endif" id="home-management">
+                    <ul class="nav flex-column sub-menu">
+
+                    <!-- Banner -->
+                        <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'banner.index') active @endif"
+                            href="{{ route('banner.index') }}">Banner</a></li>
+                    <!-- Middle Section -->
+                        <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'middle-section.index') active @endif"
+                            href="{{ route('middle-section.index') }}">Middle Section</a></li>
+                    <!-- Image Gallery -->
+                        <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'image-gallery.index') active @endif"
+                            href="{{ route('image-gallery.index') }}">Image Gallery</a></li>
+                    <!-- Testimonial -->
+                        <li class="nav-item"> <a class="nav-link @if (Route::currentRouteName() == 'testimonial.index') active @endif"
+                            href="{{ route('testimonial.index') }}">Testimonial</a></li>
+
+                    </ul>
+                </div>
             </li>
 
             <!-- Coupon -->

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ProductBundle;
 
 class ProductController extends Controller
 {
@@ -55,5 +56,24 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function productBundleList()
+    {
+        $productBundles             =   ProductBundle::with('products.productImages')->where('publish_type','publish')->orderBy('created_at','desc')->get();
+
+        return  response()->json($productBundles,200);
+    }
+
+    public function productBundleShow(string $id)
+    {
+        $productBundle              =       ProductBundle::with('products.productImages')->where('publish_type','publish')->where('id', $id)->first();
+        if(empty($productBundle))
+        {
+            return  response()->json('Data not found',404);
+        }
+        $otherProductBundles        =       ProductBundle::with('products.productImages')->where('publish_type','publish')->where('id','<>',$id)->orderBy('created_at', 'desc')->take(10)->get();
+
+        return  response()->json(['productBundle'=>$productBundle,'otherProductBundles'=>$otherProductBundles],200);
     }
 }

@@ -8,7 +8,8 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb breadcrumb-custom">
                                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page"><span>Banner Form</span></li>
+                                <li class="breadcrumb-item"><a href="{{ route('image-gallery.index') }}">Image Gallery</a></li>
+                                <li class="breadcrumb-item active" aria-current="page"><span>Image Gallery Form</span></li>
                             </ol>
                         </nav>
                     </div>
@@ -21,7 +22,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
-                        <h4 class="card-title">Banner form</h4>
+                        <h4 class="card-title">Image Gallery form</h4>
                     </div>
             </div>
 
@@ -35,19 +36,8 @@
                 <input type="hidden" name="id" value="{{ $object->id }}">
 
                 <div class="form-group">
-                    {!! Form::label('navbar', 'Navbar') !!}<span style="color: red;"> *</span>
-                    {!! Form::text('navbar', null, ['class' => 'form-control', 'placeholder' => 'Enter Navbar', 'required']) !!}
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('title', 'Title') !!}<span style="color: red;"> *</span>
-                    {!! Form::text('title', null, ['class' => 'form-control title', 'placeholder' => 'Enter Title', 'required']) !!}
-                </div>
-
-
-                <div class="form-group">
-                    {!! Form::label('description', 'Description') !!}<span style="color: red;"> *</span>
-                    {!! Form::textArea('description', null, ['class' => 'form-control', 'placeholder' => 'Enter Description', 'required']) !!}
+                    {!! Form::label('name', 'Name') !!}<span style="color: red;"> *</span>
+                    {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Enter Name', 'required']) !!}
                 </div>
 
                 <div class="form-group" id="image">
@@ -63,10 +53,10 @@
                     <div class="row">
                         <div class="file-preview mb-2 mt-2 mr-2 ml-2" id="banner_preview"></div>
                         <div class="image-preview mt-2  ml-2">
-                            @if (!empty($object->image) && file_exists("uploads/banner/" . $object->image))
+                            @if (!empty($object->image) && file_exists("uploads/imageGallery/" . $object->image))
                             {{ Form::label('image', 'Image',['class'=>'mr-2']) }}
                                 <img style="background:thistle;max-height: 150px;"
-                                    src={{ asset('uploads/banner/' . $object->image) }} />
+                                    src={{ asset('uploads/imageGallery/' . $object->image) }} />
                             @endif
                         </div>
                     </div>

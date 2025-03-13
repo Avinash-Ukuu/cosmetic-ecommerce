@@ -16,6 +16,7 @@ use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\LocationController;
 use App\Http\Controllers\api\WishlistController;
 use App\Http\Controllers\api\ForgotPasswordController;
+use App\Http\Controllers\api\ImageGalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,9 @@ Route::get('category/{id}',                 [CategoryController::class,'show']);
 //Product
 Route::get('product-list',                  [ProductController::class,'index']);
 Route::get('product/{id}',                  [ProductController::class,'show']);
+//Product-Bundle
+Route::get('product-bundle-list',           [ProductController::class,'productBundleList']);
+Route::get('product-bundle/{id}',           [ProductController::class,'productBundleShow']);
 
 //Brand
 Route::get('brand-list',                    [BrandController::class,'index']);
@@ -57,6 +61,8 @@ Route::get('brand/{id}',                    [BrandController::class,'show']);
 Route::get('blog-list',                     [BlogController::class,'index']);
 Route::get('blog/{id}',                     [BlogController::class,'show']);
 
+//ImageGallery
+Route::get('image-gallery',                 [ImageGalleryController::class,'index']);
 
 //Home page data
 Route::get('home',                          [HomeController::class,'index']);
