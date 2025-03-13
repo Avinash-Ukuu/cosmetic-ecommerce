@@ -54,7 +54,7 @@ class PaymentController extends Controller
         $order->update(['payment_status' => 'paid']);
         Mail::to([$order->customer->email,'glamifyy.ae@gmail.com'])->send(new OrderStatusMail($order, 'paid'));
 
-        return response()->json(['message' => 'Payment successful!'], 200);
+        return redirect()->to('https://glamifybeauty.ae/thankyou');
     }
 
     public function cancel($orderId,$token)
@@ -68,7 +68,7 @@ class PaymentController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        
+
         $order = Order::findOrFail($orderId);
         $order->update(['payment_status' => 'cancel']);
         Mail::to([$order->customer->email,'glamifyy.ae@gmail.com'])->send(new OrderStatusMail($order, 'canceled'));
