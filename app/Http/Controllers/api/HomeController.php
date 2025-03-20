@@ -21,7 +21,7 @@ class HomeController extends Controller
                                                 ->orderBy('product_created_at','desc')->take(5)->get();
 
         $data['glamifyBodyScrubs']      =       Category::with('products.productImages')->whereHas('products',function($query){
-                                                    $query->take(4);
+                                                    $query->where('publish_type','publish')->take(4);
                                                 })->where('slug','glamify-body-scrubs')->where('is_active',1)->get();
 
         $data['categories']             =       Category::with('products.productImages')->whereHas('products',function($query){
