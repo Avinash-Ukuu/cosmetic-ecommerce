@@ -20,13 +20,35 @@ class HomeController extends Controller
         $data['products']               =       Product::with('productImages')->where('publish_type','publish')
                                                 ->orderBy('product_created_at','desc')->take(5)->get();
 
-        $data['glamifyBodyScrubs']      =       Category::with('products.productImages')->whereHas('products',function($query){
-                                                    $query->where('publish_type','publish')->take(4);
-                                                })->where('slug','glamify-body-scrubs')->where('is_active',1)->get();
+        // $data['glamifyBodyScrubs']      =       Category::with('products.productImages')->whereHas('products',function($query){
+        //                                             $query->where('publish_type','publish')->take(4);
+        //                                         })->where('slug','glamify-body-scrubs')->where('is_active',1)->get();
 
-        $data['categories']             =       Category::with('products.productImages')->whereHas('products',function($query){
-                                                    $query->where('publish_type','publish')->take(6);
-                                                })->where('is_active',1)->get();
+        // $data['categories']             =       Category::with('products.productImages')->whereHas('products',function($query){
+        //                                             $query->where('publish_type','publish')->take(6);
+        //                                         })->where('is_active',1)->get();
+
+        $data['glamifyBodyScrubs']        =         Category::with([
+                                                                    'products' => function ($query) {
+                                                                        $query->where('publish_type', 'publish')
+                                                                              ->take(4)->with('productImages');
+                                                                    }
+                                                                   ])
+                                                    ->whereHas('products', function ($query) {
+                                                        $query->where('publish_type', 'publish');
+                                                    })
+                                                    ->where('slug', 'glamify-body-scrubs')->where('is_active', 1)->get();
+
+        $data['categories']               =         Category::with([
+                                                                    'products' => function ($query) {
+                                                                        $query->where('publish_type', 'publish')
+                                                                              ->take(6)
+                                                                              ->with('productImages');
+                                                                    }
+                                                                ])
+                                                    ->whereHas('products', function ($query) {
+                                                        $query->where('publish_type', 'publish'); 
+                                                    })->where('is_active', 1)->get();
 
         $data['blogs']                  =       Blog::where('publish_type','publish')->orderBy('created_at','desc')->take(3)->get();
 
