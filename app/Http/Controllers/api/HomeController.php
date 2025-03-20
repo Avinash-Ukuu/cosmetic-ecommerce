@@ -25,7 +25,7 @@ class HomeController extends Controller
                                                 })->where('slug','glamify-body-scrubs')->where('is_active',1)->get();
 
         $data['categories']             =       Category::with('products.productImages')->whereHas('products',function($query){
-                                                    $query->take(6);
+                                                    $query->where('publish_type','publish')->take(6);
                                                 })->where('is_active',1)->get();
 
         $data['blogs']                  =       Blog::where('publish_type','publish')->orderBy('created_at','desc')->take(3)->get();
